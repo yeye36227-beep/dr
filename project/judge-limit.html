@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Dr.Judge · 판정 한도 초과 안내</title>
+    <link rel="icon" type="image/png" href="/assets/app-icon.png" />
+    <link rel="stylesheet" href="common.css" />
+    <link rel="stylesheet" href="tabs.css" />
+    <link rel="stylesheet" href="judge.css" />
+    <link rel="stylesheet" href="mypage.css" />
+    <link rel="stylesheet" href="result.css" />
+  </head>
+  <body>
+    <div class="app tabpage resultpage">
+      <header class="subhead">
+        <a href="./judge.html" class="subhead__back" aria-label="뒤로">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m15 5-7 7 7 7" />
+          </svg>
+        </a>
+        <h1 class="subhead__title">판정 한도 초과 안내</h1>
+      </header>
+
+      <div class="scroll-area">
+        <section class="guidepage">
+          <div class="guidepage__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 16a8 8 0 1 1 16 0" /><path d="m12 15 4-4" />
+            </svg>
+          </div>
+          <h2 class="guidepage__title">
+            오늘의 판정 요청 한도를<br />모두 사용하셨습니다
+          </h2>
+          <p class="guidepage__desc">
+            내일 00:00에 초기화되며,<br />그때까지 새로운 판정을 요청할 수 없습니다.
+          </p>
+
+          <div class="infobox">
+            <p class="infobox__title">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="8.5" /><path d="M12 7.5V12l3 2" />
+              </svg>
+              과거 판정 이력은 계속 조회할 수 있습니다
+            </p>
+            <p class="infobox__desc">
+              마이페이지에서 지금까지 저장된 모든 판정 결과와<br />근거를 다시 확인해보세요.
+            </p>
+          </div>
+
+          <a href="./mypage.html" class="btn btn--block btn--lg btn--primary">
+            판정 이력 보기
+          </a>
+        </section>
+      </div>
+
+      <nav class="tabbar" data-active="judge"></nav>
+
+    </div>
+
+    <script src="common.js"></script>
+    <script src="store.js"></script>
+    <script src="data.js"></script>
+  </body>
+</html>

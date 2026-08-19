@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Dr.Judge · 회원가입</title>
+    <link rel="icon" type="image/png" href="/assets/app-icon.png" />
+    <link rel="stylesheet" href="common.css" />
+    <link rel="stylesheet" href="auth.css" />
+    <link rel="stylesheet" href="login.css" />
+    <link rel="stylesheet" href="signup.css" />
+  </head>
+  <body>
+    <div class="app signup">
+      <!-- 뒤로 -->
+      <div class="signup__nav">
+        <button type="button" class="signup__back" id="backBtn" aria-label="뒤로">
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="m15 5-7 7 7 7" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- 진행바 -->
+      <div
+        class="progress"
+        role="progressbar"
+        aria-valuemin="1"
+        aria-valuemax="2"
+        aria-valuenow="1"
+        id="progress"
+      >
+        <span class="progress__bar" id="progressBar"></span>
+      </div>
+
+      <main class="signup__body scroll-area">
+        <h1 class="signup__title" id="stepTitle">
+          가입을 위한 정보를<br />입력해주세요
+        </h1>
+
+        <!-- ===== 1단계 : 이름 · 닉네임 · 이메일 ===== -->
+        <form class="signup__form" id="step1" novalidate>
+          <div class="field" data-field="name">
+            <label class="field__label" for="name">이름</label>
+            <div class="field__row">
+              <input
+                type="text"
+                id="name"
+                name="name"
+                class="field__input"
+                placeholder="이름을 입력해 주세요"
+                autocomplete="name"
+              />
+            </div>
+            <p class="field__error">이름을 다시 확인해 주세요.</p>
+          </div>
+
+          <div class="field" data-field="nickname">
+            <label class="field__label" for="nickname">닉네임</label>
+            <div class="field__row">
+              <input
+                type="text"
+                id="nickname"
+                name="nickname"
+                class="field__input"
+                placeholder="닉네임을 10자 이내로 입력해 주세요"
+                autocomplete="off"
+                maxlength="10"
+              />
+            </div>
+            <p class="field__error">닉네임을 다시 확인해 주세요.</p>
+          </div>
+
+          <div class="field" data-field="email">
+            <label class="field__label" for="email">이메일 주소</label>
+            <div class="field__row">
+              <input
+                type="email"
+                id="email"
+                name="email"
+                class="field__input"
+                placeholder="dr.judge@g.eulji.ac.kr"
+                autocomplete="email"
+                inputmode="email"
+              />
+            </div>
+            <p class="field__error">이메일 주소를 다시 확인해 주세요.</p>
+          </div>
+
+          <p class="form-alert" id="step1Alert" hidden></p>
+
+          <button
+            type="submit"
+            class="btn btn--block btn--lg signup__submit"
+            id="nextBtn"
+          >
+            계속하기
+          </button>
+
+          <p class="signup__or"><span>또는</span></p>
+
+          <button type="button" class="btn btn--block btn--lg btn--kakao" id="kakaoBtn">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 3.6c-4.7 0-8.5 2.9-8.5 6.5 0 2.3 1.6 4.4 4 5.6l-.9 3.4c-.1.3.3.5.5.3l4-2.6c.3 0 .6.1.9.1 4.7 0 8.5-2.9 8.5-6.5S16.7 3.6 12 3.6Z" />
+            </svg>
+            카카오로 가입하기
+          </button>
+        </form>
+
+        <!-- ===== 2단계 : 아이디 · 비밀번호 · 약관 ===== -->
+        <form class="signup__form" id="step2" novalidate hidden>
+          <div class="field" data-field="userId">
+            <label class="field__label" for="newId">아이디</label>
+            <div class="field__row">
+              <input
+                type="text"
+                id="newId"
+                name="userId"
+                class="field__input"
+                placeholder="영문·숫자 4자 이상"
+                autocomplete="username"
+              />
+            </div>
+            <p class="field__error">아이디를 다시 확인해 주세요.</p>
+          </div>
+
+          <div class="field" data-field="password">
+            <label class="field__label" for="newPw">비밀번호</label>
+            <div class="field__row">
+              <input
+                type="password"
+                id="newPw"
+                name="password"
+                class="field__input"
+                placeholder="비밀번호를 10자 이상 입력하세요"
+                autocomplete="new-password"
+              />
+              <button
+                type="button"
+                class="field__eye"
+                data-toggle="#newPw"
+                aria-label="비밀번호 표시"
+                aria-pressed="false"
+              >
+                <svg class="icon-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 9c2.4 3.2 5.4 5 9 5s6.6-1.8 9-5" />
+                  <path d="M4.5 12.8 3 15.2" />
+                  <path d="M9 14.6 8.2 17.4" />
+                  <path d="M15 14.6l.8 2.8" />
+                  <path d="M19.5 12.8 21 15.2" />
+                </svg>
+                <svg class="icon-eye-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M2.5 12S6 5.8 12 5.8 21.5 12 21.5 12 18 18.2 12 18.2 2.5 12 2.5 12Z" />
+                  <circle cx="12" cy="12" r="3.1" />
+                </svg>
+              </button>
+            </div>
+            <p class="field__error">비밀번호를 다시 확인해 주세요.</p>
+          </div>
+
+          <div class="field" data-field="passwordConfirm">
+            <label class="field__label" for="newPw2">비밀번호 확인</label>
+            <div class="field__row">
+              <input
+                type="password"
+                id="newPw2"
+                name="passwordConfirm"
+                class="field__input"
+                placeholder="비밀번호를 다시 입력해주세요"
+                autocomplete="new-password"
+              />
+              <button
+                type="button"
+                class="field__eye"
+                data-toggle="#newPw2"
+                aria-label="비밀번호 표시"
+                aria-pressed="false"
+              >
+                <svg class="icon-eye-off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 9c2.4 3.2 5.4 5 9 5s6.6-1.8 9-5" />
+                  <path d="M4.5 12.8 3 15.2" />
+                  <path d="M9 14.6 8.2 17.4" />
+                  <path d="M15 14.6l.8 2.8" />
+                  <path d="M19.5 12.8 21 15.2" />
+                </svg>
+                <svg class="icon-eye-on" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M2.5 12S6 5.8 12 5.8 21.5 12 21.5 12 18 18.2 12 18.2 2.5 12 2.5 12Z" />
+                  <circle cx="12" cy="12" r="3.1" />
+                </svg>
+              </button>
+            </div>
+            <p class="field__error">비밀번호를 다시 확인해 주세요.</p>
+          </div>
+
+          <label class="agree">
+            <input type="checkbox" id="agree" class="agree__input" />
+            <span class="agree__box" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m5 12.5 4.5 4.5L19 7.5" />
+              </svg>
+            </span>
+            <span class="agree__text">
+              <b>[필수]</b> 이용약관 및 개인정보 처리방침에 동의합니다.
+            </span>
+          </label>
+
+          <p class="form-alert" id="step2Alert" hidden></p>
+
+          <button
+            type="submit"
+            class="btn btn--block btn--lg signup__submit"
+            id="signupBtn"
+          >
+            가입 완료
+          </button>
+        </form>
+
+
+        <!-- ===== 3단계 : 성별 및 연령대 ===== -->
+        <section class="signup__form" id="step3" hidden>
+          <p class="picker__label">성별</p>
+          <div class="picker" id="genderPicker">
+            <button type="button" class="picker__btn" id="genderBtn" aria-expanded="false">
+              <span id="genderLabel">선택</span>
+              <span class="picker__chevron" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6" /></svg>
+              </span>
+            </button>
+            <ul class="picker__list" id="genderList" hidden>
+              <li>
+                <button type="button" class="picker__opt" data-value="여성">
+                  <span>여성</span><span class="picker__radio" aria-hidden="true"></span>
+                </button>
+              </li>
+              <li>
+                <button type="button" class="picker__opt" data-value="남성">
+                  <span>남성</span><span class="picker__radio" aria-hidden="true"></span>
+                </button>
+              </li>
+              <li>
+                <button type="button" class="picker__opt" data-value="기타">
+                  <span>기타</span><span class="picker__radio" aria-hidden="true"></span>
+                </button>
+              </li>
+            </ul>
+          </div>
+
+          <div class="signup__divider"></div>
+
+          <p class="signup__q">연령대를 선택해주세요.</p>
+          <div class="agelist" id="ageList">
+            <button type="button" class="agelist__opt" data-value="10~24세">10~24세</button>
+            <button type="button" class="agelist__opt" data-value="25~39세">25~39세</button>
+            <button type="button" class="agelist__opt" data-value="40~59세">40~59세</button>
+            <button type="button" class="agelist__opt" data-value="60세 이상">60세 이상</button>
+          </div>
+
+          <p class="form-alert" id="step3Alert" hidden></p>
+
+          <button type="button" class="btn btn--block btn--lg signup__submit" id="nextBtn3">
+            계속하기
+          </button>
+        </section>
+
+        <!-- ===== 4단계 : 관심 분야 (여러 개 고를 수 있어요) ===== -->
+        <section class="signup__form" id="step4" hidden>
+          <p class="picker__label">관심 분야 <span class="picker__hint">여러 개 고를 수 있어요</span></p>
+
+          <div class="optlist" id="interestList">
+            <!-- 서버 categories 와 1:1 입니다. data-value 는 data.js 의 INTEREST_OPTIONS label 과 같아야 합니다. -->
+            <button type="button" class="optlist__opt" data-value="영양제·건강기능식품">영양제·건강기능식품</button>
+            <button type="button" class="optlist__opt" data-value="다이어트·체중관리">다이어트·체중관리</button>
+            <button type="button" class="optlist__opt" data-value="질환·증상관리">질환·증상관리</button>
+            <button type="button" class="optlist__opt" data-value="화장품">화장품</button>
+            <button type="button" class="optlist__opt" data-value="시술·피부관리">시술·피부관리</button>
+          </div>
+
+          <p class="form-alert" id="step4Alert" hidden></p>
+
+          <div class="signup__divider"></div>
+
+          <p class="signup__q">Q. 각 분야별로 설명이 필요해요!</p>
+
+          <div class="accordion" data-acc>
+            <button type="button" class="accordion__head">
+              <span>영양제·건강기능식품</span>
+              <span class="accordion__chevron" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6" /></svg>
+              </span>
+            </button>
+            <div class="accordion__panel" hidden>
+              <p class="accordion__label">정보 판정 기준</p>
+              <ul class="accordion__list">
+                <li>논문 출처와 연구 대상(사람·동물) 확인</li>
+                <li>상관관계를 인과관계로 바꿔 말하는지</li>
+                <li>권장 섭취량·복용 기간의 근거 제시 여부</li>
+                <li>의약품으로 오인할 표현 사용 여부</li>
+                <li>식약처 건강기능식품 인증 여부</li>
+              </ul>
+            </div>
+          </div>
+          <div class="accordion" data-acc>
+            <button type="button" class="accordion__head">
+              <span>다이어트·체중관리</span>
+              <span class="accordion__chevron" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6" /></svg>
+              </span>
+            </button>
+            <div class="accordion__panel" hidden>
+              <p class="accordion__label">정보 판정 기준</p>
+              <ul class="accordion__list">
+                <li>과장된 효능 표현 사용 여부</li>
+                <li>예) "먹기만 해도", "무조건", "100% 효과"</li>
+                <li>부작용·주의사항 명시 여부</li>
+                <li>임상시험·논문 등 객관적 근거 자료 확인</li>
+              </ul>
+            </div>
+          </div>
+          <div class="accordion" data-acc>
+            <button type="button" class="accordion__head">
+              <span>질환·증상관리</span>
+              <span class="accordion__chevron" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6" /></svg>
+              </span>
+            </button>
+            <div class="accordion__panel" hidden>
+              <p class="accordion__label">정보 판정 기준</p>
+              <ul class="accordion__list">
+                <li>1차 출처(원문·기관 발표) 확인</li>
+                <li>치료·완치를 단정하는 표현인지</li>
+                <li>의사·약사 등 전문가 검토를 거쳤는지</li>
+                <li>발표 시점과 최신 개정 여부</li>
+              </ul>
+            </div>
+          </div>
+          <div class="accordion" data-acc>
+            <button type="button" class="accordion__head">
+              <span>화장품</span>
+              <span class="accordion__chevron" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6" /></svg>
+              </span>
+            </button>
+            <div class="accordion__panel" hidden>
+              <p class="accordion__label">정보 판정 기준</p>
+              <ul class="accordion__list">
+                <li>임상시험 결과의 표본 수·기간 명시 여부</li>
+                <li>"재생", "미백" 등 기능성 표현의 식약처 심사 여부</li>
+                <li>전성분과 함량 공개 여부</li>
+                <li>광고성 콘텐츠와 실사용 후기 구분</li>
+              </ul>
+            </div>
+          </div>
+          <div class="accordion" data-acc>
+            <button type="button" class="accordion__head">
+              <span>시술·피부관리</span>
+              <span class="accordion__chevron" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6" /></svg>
+              </span>
+            </button>
+            <div class="accordion__panel" hidden>
+              <p class="accordion__label">정보 판정 기준</p>
+              <ul class="accordion__list">
+                <li>시술 전후 사진의 보정·조명 조건 표기 여부</li>
+                <li>부작용·회복 기간·재시술 주기 안내 여부</li>
+                <li>의료기기 허가 사항과 광고 표현의 일치 여부</li>
+                <li>광고·협찬 등 이해관계 표기 여부</li>
+              </ul>
+            </div>
+          </div>
+
+          <button type="button" class="btn btn--block btn--lg signup__submit" id="doneBtn">
+            완료
+          </button>
+        </section>
+
+        <p class="auth__switch signup__switch">
+          이미 계정이 있으신가요?
+          <a href="./login.html" class="auth__switch-link">로그인</a>
+        </p>
+      </main>
+    </div>
+
+    <script src="common.js"></script>
+    <script src="store.js"></script>
+    <script src="data.js"></script>
+    <script src="api.js"></script>
+    <script src="validate.js"></script>
+    <script src="signup.js"></script>
+    <script src="kakao-btn.js"></script>
+  </body>
+</html>

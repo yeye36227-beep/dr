@@ -1,0 +1,134 @@
+/* ============================================
+   Dr.Judge — 내 정보 수정 · 닉네임 변경
+   ============================================ */
+
+.editpage {
+  background: #f7f8fa;
+}
+
+/* ---------- 프로필 사진 ---------- */
+.avatarbox {
+  position: relative;
+  padding: 24px 0 20px;
+  display: flex;
+  justify-content: center;
+}
+.avatarbox__img {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: top center;
+  background: var(--green-050);
+}
+
+
+/* ---------- 정보 목록 ---------- */
+.fieldlist {
+  padding: 0 var(--page-x) 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.fieldrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  background: var(--white);
+}
+.fieldrow--link:active {
+  background: var(--gray-100);
+}
+.fieldrow__text {
+  min-width: 0;
+}
+.fieldrow__label {
+  display: block;
+  font-size: 11px;
+  color: var(--gray-400);
+}
+.fieldrow__value {
+  display: block;
+  margin-top: 3px;
+  font-size: 14.5px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.fieldrow__arrow {
+  margin-left: auto;
+  flex: 0 0 auto;
+  width: 8px;
+  height: 8px;
+  border-top: 1.6px solid var(--gray-400);
+  border-right: 1.6px solid var(--gray-400);
+  transform: rotate(45deg);
+}
+
+/* ---------- 닉네임 변경 ---------- */
+.nickwrap {
+  padding: 22px var(--page-x) 0;
+}
+.nick__title {
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.4px;
+  margin-bottom: 18px;
+}
+.nick__box {
+  padding: 14px;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  background: var(--white);
+  transition: border-color 0.2s var(--ease);
+}
+.nick__box:focus-within {
+  border-color: var(--green-500);
+}
+.nick__box.is-error {
+  border-color: var(--danger);
+}
+.nick__input {
+  width: 100%;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  caret-color: var(--green-600);
+}
+.nick__input::placeholder {
+  color: var(--gray-400);
+  font-weight: 400;
+}
+.nick__error {
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--danger);
+}
+
+.nick__cta {
+  flex: 0 0 auto;
+  padding: 0 var(--page-x) 18px;
+}
+/* 3-3 — 조건 미충족이면 버튼 색이 바뀌지 않음 */
+.nick__submit {
+  background: var(--white);
+  border: 1.5px solid var(--green-500);
+  color: var(--green-600);
+  opacity: 0.6;
+}
+.nick__submit.is-ready,
+.nick__submit:not(:disabled).is-ready {
+  background: var(--green-500);
+  color: var(--white);
+  opacity: 1;
+}
+.nick__submit:active {
+  background: var(--green-600);
+  border-color: var(--green-600);
+  color: var(--white);
+}

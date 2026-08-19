@@ -1,0 +1,270 @@
+/* ============================================
+   Dr.Judge — 오늘의 브리핑
+   ============================================ */
+
+.briefingpage {
+  background: #fafbfa;
+}
+
+/* ---------- 날짜 · 공유 ---------- */
+.bdate {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 16px var(--page-x) 0;
+}
+.bdate__nav {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-left: -6px;
+}
+.bdate__arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--gray-700);
+  cursor: pointer;
+}
+.bdate__arrow svg {
+  width: 18px;
+  height: 18px;
+}
+.bdate__arrow:active {
+  background: var(--gray-100);
+}
+.bdate__arrow:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+.bdate__label {
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.4px;
+  color: var(--gray-900);
+}
+.bdate__picker {
+  position: relative;
+}
+.bdate__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.4px;
+  color: var(--gray-900);
+}
+.bdate__btn svg {
+  width: 16px;
+  height: 16px;
+  color: var(--gray-500);
+  transition: transform 0.2s var(--ease);
+}
+.bdate__btn[aria-expanded='true'] svg {
+  transform: rotate(180deg);
+}
+.bdate__list {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  z-index: 30;
+  min-width: 168px;
+  padding: 5px;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  background: var(--white);
+  box-shadow: var(--shadow-float);
+}
+.bdate__opt {
+  width: 100%;
+  padding: 10px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  color: var(--gray-700);
+  text-align: left;
+}
+.bdate__opt:active {
+  background: var(--gray-100);
+}
+.bdate__opt.is-selected {
+  background: var(--green-100);
+  color: #4f8a1c;
+  font-weight: 800;
+}
+
+.bdate__share {
+  flex: 0 0 auto;
+  height: 32px;
+  padding: 0 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border: 1.5px solid var(--green-500);
+  border-radius: 999px;
+  background: var(--white);
+  color: #5e9b22;
+  font-size: 12px;
+  font-weight: 800;
+}
+.bdate__share svg {
+  width: 13px;
+  height: 13px;
+}
+
+/* ---------- 카테고리 칩 ---------- */
+.bchips {
+  display: flex;
+  gap: 6px;
+  padding: 14px var(--page-x) 16px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.bchips::-webkit-scrollbar {
+  display: none;
+}
+.bchip {
+  flex: 0 0 auto;
+  height: 32px;
+  padding: 0 14px;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--gray-500);
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition:
+    background 0.2s var(--ease),
+    color 0.2s var(--ease);
+}
+.bchip.is-active {
+  background: var(--green-500);
+  color: var(--white);
+  font-weight: 800;
+}
+
+/* ---------- 요약 브리핑 ---------- */
+.summary {
+  margin: 0 var(--page-x);
+  padding: 18px 16px;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  background: var(--white);
+  box-shadow: var(--shadow-card);
+}
+.summary__title {
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+}
+.summary__text {
+  margin-top: 14px;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.6;
+  letter-spacing: -0.3px;
+}
+.summary__text b {
+  color: var(--green-600);
+  font-weight: 800;
+}
+.summary__stats {
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid var(--gray-100);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+.summary__stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-align: center;
+}
+.summary__stat + .summary__stat {
+  border-left: 1px solid var(--gray-100);
+}
+.summary__stat span {
+  font-size: 10px;
+  color: var(--gray-400);
+}
+.summary__stat b {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.4px;
+}
+
+/* ---------- 브리핑 리스트 ---------- */
+.blist {
+  padding: 22px var(--page-x) 24px;
+}
+.blist__title {
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.4px;
+  margin-bottom: 12px;
+}
+.blist__items {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.bitem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  background: var(--white);
+  box-shadow: var(--shadow-card);
+  cursor: pointer;
+  transition: transform 0.15s var(--ease);
+}
+.bitem:active {
+  transform: scale(0.99);
+}
+.bitem__body {
+  min-width: 0;
+  flex: 1 1 auto;
+}
+.bitem__title {
+  margin: 8px 0 6px;
+  font-size: 14.5px;
+  font-weight: 800;
+  line-height: 1.4;
+  letter-spacing: -0.3px;
+}
+.bitem__desc {
+  font-size: 12px;
+  color: var(--gray-500);
+  line-height: 1.55;
+}
+.bitem__time {
+  display: block;
+  margin-top: 8px;
+  font-size: 11px;
+  color: var(--gray-400);
+}
+.bitem__arrow {
+  flex: 0 0 auto;
+  color: var(--gray-400);
+  font-size: 18px;
+}
+
+.blist__empty {
+  padding: 36px 0;
+  text-align: center;
+  color: var(--gray-400);
+  font-size: 13px;
+}
+
+.blist .judgecta {
+  margin-top: 18px;
+}

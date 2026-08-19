@@ -1,0 +1,23 @@
+# ============================================
+# 카카오 설정 보충 파일
+#
+# 백엔드에 카카오 로그인이 들어가면서 KAKAO_CLIENT_ID 가 필수가 됐는데
+# docker-compose.local.yml 에는 그 값이 없어서 앱이 부팅 중에 죽습니다.
+#   Could not resolve placeholder 'KAKAO_CLIENT_ID'
+#
+# 원본 파일은 그대로 두고, 이 파일을 함께 얹어서 값만 채웁니다.
+#
+# 실행:
+#   docker compose -f docker-compose.local.yml -f docker-compose.kakao.yml up -d
+#
+# 아래는 '앱이 뜨게만 하는' 더미값입니다.
+# 카카오 로그인만 안 되고 회원가입·로그인·판정·피드는 전부 정상 동작합니다.
+# 실제 키를 받으면 KAKAO_CLIENT_ID 값만 바꿔 끼우면 됩니다.
+# ============================================
+
+services:
+  app:
+    environment:
+      KAKAO_CLIENT_ID: local-dev-dummy
+      KAKAO_CLIENT_SECRET: local-dev-dummy
+      KAKAO_REDIRECT_URI: http://localhost:3000/kakao-callback.html

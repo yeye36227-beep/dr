@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Dr.Judge · 관심분야 변경</title>
+    <link rel="icon" type="image/png" href="/assets/app-icon.png" />
+    <link rel="stylesheet" href="common.css" />
+    <link rel="stylesheet" href="tabs.css" />
+    <link rel="stylesheet" href="judge.css" />
+    <link rel="stylesheet" href="signup.css" />
+    <link rel="stylesheet" href="edit.css" />
+  </head>
+  <body>
+    <div class="app tabpage editpage">
+      <header class="subhead">
+        <a href="./profile-edit.html" class="subhead__back" aria-label="뒤로">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m15 5-7 7 7 7" />
+          </svg>
+        </a>
+        <h1 class="subhead__title">관심분야 변경</h1>
+      </header>
+
+      <div class="scroll-area nickwrap">
+        <h2 class="nick__title">새로운 관심분야를 선택해주세요.</h2>
+        <p class="picker__label">여러 개 고를 수 있어요</p>
+
+        <div class="optlist" id="interestList">
+          <button type="button" class="optlist__opt" data-value="영양제·건강기능식품">영양제·건강기능식품</button>
+          <button type="button" class="optlist__opt" data-value="다이어트·체중관리">다이어트·체중관리</button>
+          <button type="button" class="optlist__opt" data-value="질환·증상관리">질환·증상관리</button>
+          <button type="button" class="optlist__opt" data-value="화장품">화장품</button>
+          <button type="button" class="optlist__opt" data-value="시술·피부관리">시술·피부관리</button>
+        </div>
+
+        <p class="nick__error" id="interestError" hidden>
+          희망 분야를 하나 이상 선택해 주세요.
+        </p>
+      </div>
+
+      <div class="nick__cta">
+        <button type="button" class="btn btn--block btn--lg nick__submit" id="saveBtn">
+          변경하기
+        </button>
+      </div>
+
+      <nav class="tabbar" data-active="my"></nav>
+    </div>
+
+    <script src="common.js"></script>
+    <script src="store.js"></script>
+    <script src="data.js"></script>
+    <script src="api.js"></script>
+    <script src="interest-edit.js"></script>
+  </body>
+</html>

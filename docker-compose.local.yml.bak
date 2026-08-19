@@ -1,0 +1,69 @@
+# 프론트엔드 등 백엔드 코드를 직접 안 건드리는 사람이 로컬에서 API 서버만 띄우기 위한 파일.
+# Java/MySQL/Redis 아무것도 설치할 필요 없이 Docker Hub에서 미리 빌드된 이미지를 pull해서 씀
+# (Public 저장소라 로그인 없이 바로 pull 가능).
+#
+# 사용법:
+#   docker compose -f docker-compose.local.yml pull   # main 머지될 때마다 최신 이미지로 갱신
+#   docker compose -f docker-compose.local.yml up -d
+#   -> http://localhost:8080/swagger-ui.html
+#
+# ⚠️ 운영 배포용 아님(그건 compose.prod.yml). 여기 들어있는 값은 전부 로컬 전용 더미값이라
+#    그대로 커밋해도 되고, 매번 새로 받아도 상관없다.
+# ⚠️ AI_SERVICE_BASE_URL이 실제로 떠 있지 않아도 앱은 정상 부팅된다 — 판정(Judgment) 요청을
+#    실제로 보낼 때만 FAILED로 처리된다 (Python 서비스는 별도로 띄워야 함).
+
+services:
+  app:
+    image: hyunj11/aaction_be:latest
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8080:8080"
+    environment:
+      DB_HOST: mysql
+      DB_NAME: drjudge
+      DB_USERNAME: drjudge
+      DB_PASSWORD: local_dev_password
+      JPA_DDL_AUTO: validate
+      JWT_SECRET: 0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef
+      FLYWAY_OUT_OF_ORDER: "true"
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      AI_SERVICE_BASE_URL: http://host.docker.internal:8000
+      AI_SERVICE_API_KEY: local-dev-key
+    extra_hosts:
+      # host.docker.internal은 Docker Desktop(Mac/Windows)엔 기본 제공되지만
+      # Linux Docker Engine에선 이렇게 명시해야 호스트로 연결된다.
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  mysql:
+    image: mysql:8
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: local_dev_password
+      MYSQL_DATABASE: drjudge
+      MYSQL_USER: drjudge
+      MYSQL_PASSWORD: local_dev_password
+    volumes:
+      - drjudge_local_mysql:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-uroot", "-plocal_dev_password"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  redis:
+    image: redis:7
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  drjudge_local_mysql:

@@ -1,0 +1,11 @@
+# Netlify 배포 설정
+# 이 파일이 있는 폴더(project)가 사이트 루트가 됩니다.
+
+[build]
+  publish = "."
+
+# 이미지가 캐시로 오래 남지 않도록
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"

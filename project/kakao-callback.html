@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Dr.Judge · 카카오 로그인</title>
+    <link rel="icon" type="image/png" href="/assets/app-icon.png" />
+    <link rel="stylesheet" href="common.css" />
+    <link rel="stylesheet" href="auth.css" />
+  </head>
+  <body>
+    <div class="app auth auth--splash">
+      <main class="auth__hero">
+        <img
+          class="auth__character"
+          src="./assets/character.png"
+          alt=""
+          data-fallback="character"
+        />
+        <p class="kakao__msg" id="msg">카카오 로그인 중이에요…</p>
+        <p class="form-alert" id="err" hidden></p>
+        <a href="./login.html" class="btn btn--block btn--lg btn--ghost kakao__retry" id="retry" hidden>
+          로그인 화면으로
+        </a>
+      </main>
+    </div>
+
+    <script src="common.js"></script>
+    <script src="data.js"></script>
+    <script src="store.js"></script>
+    <script src="api.js"></script>
+    <script src="kakao-callback.js"></script>
+  </body>
+</html>

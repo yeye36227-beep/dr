@@ -1,0 +1,283 @@
+/* ============================================
+   Dr.Judge — 공통 스타일
+   모든 화면에서 첫 번째로 불러옵니다.
+   ============================================ */
+
+:root {
+  /* Brand */
+  --green-500: #9de24f; /* 메인 연두색 */
+  --green-600: #8bd139; /* hover / pressed */
+  --green-400: #b5ea7b;
+  --green-100: #eaf9da; /* 칩 배경 */
+  --green-050: #f4fcec;
+
+  /* Gray scale */
+  --gray-900: #16181a;
+  --gray-800: #2b2f33;
+  --gray-700: #4b5157;
+  --gray-500: #868c94;
+  --gray-400: #a8aeb6;
+  --gray-300: #d7dbe0;
+  --gray-200: #e8ebef;
+  --gray-100: #f3f5f7;
+  --white: #ffffff;
+  --bg-app: #f7f8fc; /* 스플래시/시작 화면 배경 */
+
+  /* 포인트 코인 */
+  --coin-rim: #f0b429; /* 바깥 테두리 */
+  --coin-face: #ffdf7a; /* 안쪽 면 */
+  --coin-ink: #9a6b00; /* 글자 */
+  --danger: #ff5b5b;
+  --like: #ff5b7f;
+
+  /* Layout */
+  --app-width: 390px;
+  --page-x: 20px;
+  --tabbar-h: 68px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+
+  --shadow-card: 0 2px 8px rgba(22, 24, 26, 0.06);
+  --shadow-float: 0 8px 24px rgba(22, 24, 26, 0.12);
+
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* ---------- reset ---------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family:
+    'Pretendard',
+    -apple-system,
+    BlinkMacSystemFont,
+    'Apple SD Gothic Neo',
+    'Noto Sans KR',
+    'Malgun Gothic',
+    sans-serif;
+  color: var(--gray-900);
+  background: #dadde1; /* 데스크톱에서 프레임 밖 배경 */
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  display: flex;
+  justify-content: center;
+}
+
+/* hidden 속성은 어떤 클래스보다 우선합니다 */
+[hidden] {
+  display: none !important;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+input {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  outline: none;
+}
+ul,
+ol {
+  list-style: none;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ---------- 모바일 프레임 ---------- */
+.app {
+  position: relative;
+  width: 100%;
+  max-width: var(--app-width);
+  height: 100vh; /* dvh 미지원 브라우저 대비 */
+  height: 100dvh;
+  background: var(--white);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------- 공통 버튼 ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  transition:
+    background 0.2s var(--ease),
+    color 0.2s var(--ease),
+    border-color 0.2s var(--ease),
+    opacity 0.2s;
+}
+.btn--block {
+  width: 100%;
+}
+.btn--lg {
+  height: 54px;
+  font-size: 16px;
+}
+.btn--primary {
+  background: var(--green-500);
+  color: var(--white);
+}
+.btn--primary:active {
+  background: var(--green-600);
+}
+.btn--outline {
+  border: 1.5px solid var(--green-500);
+  color: var(--green-500);
+  background: var(--white);
+}
+.btn:disabled {
+  cursor: not-allowed;
+}
+
+/* ---------- 카테고리 칩 ---------- */
+.chip {
+  display: inline-block;
+  padding: 4px 10px;
+  border: 1px solid var(--green-400);
+  border-radius: 999px;
+  background: var(--green-050);
+  color: #6fae2e;
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* ---------- 하단 탭바 ---------- */
+.tabbar {
+  position: relative;
+  z-index: 30;
+  flex: 0 0 var(--tabbar-h);
+  height: var(--tabbar-h);
+  padding-bottom: 10px;
+  display: flex;
+  align-items: flex-start;
+  border-top: 1px solid var(--gray-200);
+  background: var(--white);
+}
+.tabbar__item {
+  flex: 1;
+  padding-top: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  color: var(--gray-400);
+  font-size: 10px;
+  font-weight: 600;
+  transition: color 0.2s var(--ease);
+}
+.tabbar__item svg {
+  width: 24px;
+  height: 24px;
+}
+.tabbar__item.is-active {
+  color: var(--green-600);
+}
+.tabbar__item.is-active span {
+  font-weight: 700;
+}
+
+/* ---------- 이미지 자리표시자 (assets 준비 전) ---------- */
+.img-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.35);
+  border: 1px dashed rgba(255, 255, 255, 0.8);
+  color: rgba(0, 0, 0, 0.45);
+  font-size: 11px;
+  font-weight: 700;
+  text-align: center;
+}
+.img-placeholder.character {
+  width: 148px;
+  height: 240px;
+}
+.img-placeholder.logo {
+  width: 56px;
+  height: 56px;
+}
+.img-placeholder.wordmark {
+  width: 210px;
+  height: 58px;
+}
+.img-placeholder.avatar {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--gray-200);
+  border: 0;
+  font-size: 0;
+}
+
+/* ---------- 유틸 ---------- */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+.scroll-area {
+  flex: 1 1 auto;
+  min-height: 0; /* 없으면 내용만큼 늘어나 내부 스크롤이 안 됨 */
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+.scroll-area::-webkit-scrollbar {
+  width: 0;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* ---------- 네트워크 끊김 안내 ---------- */
+.offlinebar {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  width: 100%;
+  max-width: var(--app-width);
+  padding: 8px 12px;
+  background: var(--gray-900);
+  color: var(--white);
+  font-size: 12.5px;
+  font-weight: 600;
+  text-align: center;
+}

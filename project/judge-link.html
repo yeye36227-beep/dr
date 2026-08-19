@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Dr.Judge · 링크 입력</title>
+    <link rel="icon" type="image/png" href="/assets/app-icon.png" />
+    <link rel="stylesheet" href="common.css" />
+    <link rel="stylesheet" href="tabs.css" />
+    <link rel="stylesheet" href="judge.css" />
+  </head>
+  <body>
+    <div class="app tabpage">
+      <header class="subhead">
+        <a href="./judge.html" class="subhead__back" aria-label="뒤로">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m15 5-7 7 7 7" />
+          </svg>
+        </a>
+        <h1 class="subhead__title">링크 입력</h1>
+      </header>
+
+      <div class="scroll-area">
+        <section class="request">
+          <h2 class="request__title">링크로 판정 요청</h2>
+          <p class="request__desc">
+            유튜브 또는 SNS 링크를 붙여 넣으면 제목·설명·자막을 자동으로
+            입력합니다.
+          </p>
+
+          <div class="inputbox">
+            <textarea
+              class="inputbox__field"
+              id="linkInput"
+              rows="3"
+              maxlength="1000"
+              placeholder="링크 붙여 넣기"
+            ></textarea>
+            <span class="inputbox__count"><span id="linkCount">0</span>/1000</span>
+          </div>
+          <p class="request__note">
+            비공개·멤버십·자막 없음 콘텐츠는 추출이 제한될 수 있습니다.
+          </p>
+
+          <section class="guide">
+            <div class="guide__head">
+              <span class="guide__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5" /></svg>
+              </span>
+              <h2 class="guide__title">추출된 내용 미리 보기</h2>
+            </div>
+            <ul class="guide__list">
+            <li>
+              <span class="guide__mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="4" y="4" width="16" height="16" rx="3" /></svg></span>
+              카톡에서 받은 건강 정보 문자
+            </li>
+            <li>
+              <span class="guide__mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3.5 20.5 12 12 20.5 3.5 12z" /></svg></span>
+              제품 패키지나 광고 문구
+            </li>
+            <li>
+              <span class="guide__mark"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 4.5v15l13-7.5z" /></svg></span>
+              SNS에서 본 영양제·화장품 효능 주장
+            </li>
+            </ul>
+          </section>
+          <section class="guide guide--plain">
+            <div class="guide__head">
+              <span class="guide__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3.5 20.5 12 12 20.5 3.5 12z" /></svg>
+              </span>
+              <h2 class="guide__title">정확한 판정을 위해 확인해주세요</h2>
+            </div>
+            <div class="guide__body">
+              <p>입력한 내용에서 자동으로 핵심 주장을 추출해 판정합니다.</p>
+              <p>개인정보(이름, 연락처, 주소 등)는 입력하지 마세요.</p>
+            </div>
+          </section>
+          <button type="button" class="btn btn--block btn--lg request__submit" id="submitBtn" disabled>
+            <span aria-hidden="true">✦</span> 판정 요청하기
+          </button>
+
+          <p class="request__footnote">
+            평일·공휴일 상관없이 <b>24시간</b> 판정할 수 있어요!
+          </p>
+
+          <button type="button" class="request__limit" id="limitLink">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+              <circle cx="12" cy="12" r="8.5" /><path d="M12 7.5V12l3 2" />
+            </svg>
+            일일 한도를 초과했나요?
+            <span class="arrow" aria-hidden="true">›</span>
+          </button>
+        </section>
+      </div>
+
+      <!-- 한도 초과 안내 -->
+      <div class="modal" id="limitModal" hidden>
+        <div class="modal__box" role="alertdialog" aria-labelledby="limitTitle">
+          <h2 class="modal__title" id="limitTitle">오늘 판정 요청 한도에 도달했습니다</h2>
+          <p class="modal__desc">
+            내일 자정에 한도가 초기화됩니다. 저장된 판정 이력은
+            마이페이지에서 계속 확인할 수 있습니다.
+          </p>
+          <div class="modal__actions">
+            <button type="button" class="modal__ok" id="limitOk">확인</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="common.js"></script>
+    <script src="data.js"></script>
+    <script src="store.js"></script>
+    <script src="api.js"></script>
+    <script src="judge-request.js"></script>
+    <script src="judge-link.js"></script>
+  </body>
+</html>

@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Dr.Judge · 닉네임 변경</title>
+    <link rel="icon" type="image/png" href="/assets/app-icon.png" />
+    <link rel="stylesheet" href="common.css" />
+    <link rel="stylesheet" href="tabs.css" />
+    <link rel="stylesheet" href="judge.css" />
+    <link rel="stylesheet" href="edit.css" />
+  </head>
+  <body>
+    <div class="app tabpage editpage">
+      <!-- 3-1. 뒤로가기 → 내 정보 수정 -->
+      <header class="subhead">
+        <a href="./profile-edit.html" class="subhead__back" aria-label="뒤로">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m15 5-7 7 7 7" />
+          </svg>
+        </a>
+        <h1 class="subhead__title">닉네임 변경</h1>
+      </header>
+
+      <div class="scroll-area nickwrap">
+        <h2 class="nick__title">새로운 닉네임을 입력해주세요.</h2>
+
+        <!-- 3-2. 닉네임 입력 -->
+        <div class="nick__box" id="nickBox">
+          <input
+            type="text"
+            class="nick__input"
+            id="nickInput"
+            maxlength="10"
+            placeholder=""
+            autocomplete="off"
+          />
+        </div>
+        <!-- 3-4. 오류 문구 -->
+        <p class="nick__error" id="nickError" hidden>
+          닉네임을 2~10자로 입력해주세요.
+        </p>
+      </div>
+
+      <!-- 3-3. 변경하기 -->
+      <div class="nick__cta">
+        <button type="button" class="btn btn--block btn--lg nick__submit" id="saveBtn">
+          변경하기
+        </button>
+      </div>
+
+      <nav class="tabbar" data-active="my"></nav>
+    </div>
+
+    <script src="common.js"></script>
+    <script src="store.js"></script>
+    <script src="data.js"></script>
+    <script src="api.js"></script>
+    <script src="nickname-edit.js"></script>
+  </body>
+</html>

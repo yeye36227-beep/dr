@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Dr.Judge · 내 정보 수정</title>
+    <link rel="stylesheet" href="common.css" />
+    <link rel="stylesheet" href="tabs.css" />
+    <link rel="stylesheet" href="judge.css" />
+    <link rel="stylesheet" href="mypage.css" />
+    <link rel="stylesheet" href="edit.css" />
+  </head>
+  <body>
+    <div class="app tabpage editpage">
+      <!-- 1. 뒤로가기 → 마이페이지 -->
+      <header class="subhead">
+        <a href="./mypage.html" class="subhead__back" aria-label="뒤로">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m15 5-7 7 7 7" />
+          </svg>
+        </a>
+        <h1 class="subhead__title">내 정보 수정</h1>
+      </header>
+
+      <div class="scroll-area">
+        <!-- 프로필 사진 (기본 캐릭터) -->
+        <section class="avatarbox">
+          <img
+            class="avatarbox__img"
+            src="./assets/character.png"
+            alt="Dr.Judge 캐릭터"
+            data-fallback="character"
+          />
+        </section>
+
+        <section class="fieldlist">
+          <!-- 3. 닉네임 → 닉네임 변경 -->
+          <a href="./nickname-edit.html" class="fieldrow fieldrow--link">
+            <span class="fieldrow__text">
+              <span class="fieldrow__label">닉네임</span>
+              <b class="fieldrow__value" id="nickValue">마라탕후루이비똥</b>
+            </span>
+            <span class="fieldrow__arrow" aria-hidden="true"></span>
+          </a>
+
+          <div class="fieldrow">
+            <span class="fieldrow__text">
+              <span class="fieldrow__label">이메일</span>
+              <b class="fieldrow__value" id="mailValue">tmxhdjf12@g.eulji.ac.kr</b>
+            </span>
+          </div>
+
+          <!-- 관심분야 → 관심 분야 변경 -->
+          <a href="./interest-edit.html" class="fieldrow fieldrow--link">
+            <span class="fieldrow__text">
+              <span class="fieldrow__label">관심분야</span>
+              <b class="fieldrow__value" id="interestValue">—</b>
+            </span>
+            <span class="fieldrow__arrow" aria-hidden="true"></span>
+          </a>
+        </section>
+      </div>
+
+      <nav class="tabbar" data-active="my"></nav>
+    </div>
+
+    <script src="common.js"></script>
+    <script src="store.js"></script>
+    <script src="data.js"></script>
+    <script src="api.js"></script>
+    <script src="profile-edit.js"></script>
+  </body>
+</html>

@@ -1,0 +1,232 @@
+/* ============================================
+   Dr.Judge — 로그인 · 회원가입 화면
+   ============================================ */
+
+.login {
+  background: var(--green-500);
+  justify-content: flex-start;
+}
+
+/* ---------- 초록 상단 로고 ---------- */
+.login__hero {
+  flex: 0 0 auto;
+  padding: 28px 0 26px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  background: var(--green-500);
+}
+.login__logo {
+  width: 46px;
+  height: 46px;
+  object-fit: contain;
+}
+.login__wordmark {
+  color: var(--white);
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: -0.6px;
+}
+
+/* ---------- 흰 시트 ---------- */
+.login__sheet {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  background: var(--white);
+  border-radius: 28px 28px 0 0;
+  padding: 30px var(--page-x) 0;
+  display: flex;
+  flex-direction: column;
+}
+.login__title {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.6px;
+  margin-bottom: 30px;
+}
+.login__form {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+}
+
+/* ---------- 입력 필드 ---------- */
+.field {
+  margin-bottom: 22px;
+}
+
+.field__label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gray-700);
+  margin-bottom: 4px;
+  transition: color 0.2s var(--ease);
+}
+.field.is-focused .field__label,
+.field.is-filled .field__label {
+  color: var(--green-600);
+}
+.field.is-error .field__label {
+  color: var(--danger);
+}
+
+.field__row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1.5px solid var(--gray-300);
+  transition: border-color 0.2s var(--ease);
+}
+.field.is-focused .field__row,
+.field.is-filled .field__row {
+  border-bottom-color: var(--green-500);
+}
+.field.is-error .field__row {
+  border-bottom-color: var(--danger);
+}
+
+.field__input {
+  flex: 1 1 auto;
+  height: 42px;
+  font-size: 16px;
+  letter-spacing: -0.2px;
+  caret-color: var(--green-600);
+}
+.field__input::placeholder {
+  color: var(--gray-400);
+  font-weight: 400;
+}
+
+/* 눈 아이콘 */
+.field__eye {
+  flex: 0 0 auto;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  color: var(--gray-800);
+}
+.field__eye svg {
+  width: 22px;
+  height: 22px;
+}
+.field__eye .icon-eye-on {
+  display: none;
+}
+.field__eye.is-visible .icon-eye-off {
+  display: none;
+}
+.field__eye.is-visible .icon-eye-on {
+  display: block;
+  color: var(--gray-700);
+}
+
+.field__error {
+  display: none;
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--danger);
+}
+.field.is-error .field__error {
+  display: block;
+}
+
+/* ---------- 약관 동의 ---------- */
+.agree {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 2px 0 6px;
+  cursor: pointer;
+}
+.agree__input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.agree__box {
+  flex: 0 0 auto;
+  width: 21px;
+  height: 21px;
+  display: grid;
+  place-items: center;
+  border: 1.5px solid var(--gray-300);
+  border-radius: 6px;
+  color: transparent;
+  transition:
+    background 0.18s var(--ease),
+    border-color 0.18s var(--ease),
+    color 0.18s var(--ease);
+}
+.agree__box svg {
+  width: 14px;
+  height: 14px;
+}
+.agree__input:checked + .agree__box {
+  background: var(--green-500);
+  border-color: var(--green-500);
+  color: var(--white);
+}
+.agree__text {
+  font-size: 13px;
+  color: var(--gray-700);
+}
+.agree__text b {
+  color: var(--green-600);
+  font-weight: 700;
+}
+
+/* ---------- 제출 버튼 ---------- */
+.login__submit {
+  margin-top: auto;
+}
+.signup .login__submit {
+  margin-top: 26px;
+}
+
+/* 버튼은 항상 누를 수 있습니다. 다 채우면 색이 채워집니다. */
+.login__submit {
+  background: var(--white);
+  border: 1.5px solid var(--green-500);
+  color: var(--green-600);
+}
+.login__submit.is-ready {
+  background: var(--green-500);
+  color: var(--white);
+}
+.login__submit:active {
+  background: var(--green-600);
+  border-color: var(--green-600);
+  color: var(--white);
+}
+.login__submit:disabled {
+  opacity: 0.6;
+}
+
+.login__signup {
+  margin: 14px 0 30px;
+}
+
+/* ---------- 폼 전체 오류 (네트워크 · 서버) ---------- */
+.form-alert {
+  margin-top: 4px;
+  padding: 10px 12px;
+  border: 1px solid var(--danger);
+  border-radius: var(--radius-sm);
+  background: #fff2f2;
+  color: var(--danger);
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+/* 통신 중에는 입력 잠금 */
+.is-loading .field__input,
+.is-loading .field__eye {
+  pointer-events: none;
+  opacity: 0.6;
+}

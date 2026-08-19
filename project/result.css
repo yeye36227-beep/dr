@@ -1,0 +1,1372 @@
+/* ============================================
+   Dr.Judge — 판정 결과 · 안내 화면
+   ============================================ */
+
+.resultpage {
+  background: #fafbfa;
+}
+
+/* ---------- 안내 화면 (추출 실패 / 한도 초과) ---------- */
+.guidepage {
+  padding: 34px var(--page-x) 28px;
+  text-align: center;
+}
+.guidepage__icon {
+  width: 62px;
+  height: 62px;
+  margin: 0 auto 18px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--green-100);
+  color: var(--green-600);
+}
+.guidepage__icon svg {
+  width: 30px;
+  height: 30px;
+}
+.guidepage__title {
+  font-size: 19px;
+  font-weight: 800;
+  line-height: 1.4;
+  letter-spacing: -0.4px;
+}
+.guidepage__desc {
+  margin-top: 10px;
+  font-size: 12.5px;
+  color: var(--gray-500);
+  line-height: 1.6;
+}
+
+.guidepage__h {
+  margin: 30px 0 12px;
+  font-size: 14.5px;
+  font-weight: 800;
+  text-align: left;
+}
+
+/* 선택지 카드 */
+.optionlist {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: left;
+}
+.optionlist__item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  background: var(--white);
+}
+.optionlist__item:active {
+  background: var(--gray-100);
+}
+.optionlist__icon {
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--green-050);
+  color: var(--green-600);
+  font-size: 15px;
+  font-weight: 800;
+}
+.optionlist__icon svg {
+  width: 20px;
+  height: 20px;
+}
+.optionlist__text b {
+  display: block;
+  font-size: 13.5px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+}
+.optionlist__text span {
+  display: block;
+  margin-top: 3px;
+  font-size: 11.5px;
+  color: var(--gray-500);
+  line-height: 1.5;
+}
+.optionlist__arrow {
+  margin-left: auto;
+  flex: 0 0 auto;
+  width: 8px;
+  height: 8px;
+  border-top: 1.6px solid var(--gray-400);
+  border-right: 1.6px solid var(--gray-400);
+  transform: rotate(45deg);
+}
+
+/* 초록 안내 박스 */
+.infobox {
+  margin-top: 22px;
+  padding: 16px;
+  text-align: left;
+  border: 1px solid var(--green-100);
+  border-radius: var(--radius-lg);
+  background: var(--green-050);
+}
+.infobox__title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13.5px;
+  font-weight: 800;
+  color: #4f8a1c;
+}
+.infobox__title svg {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+}
+.infobox__desc {
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--gray-600, var(--gray-500));
+  line-height: 1.6;
+}
+
+.guidepage .btn {
+  margin-top: 18px;
+}
+
+/* ============================================
+   판정 결과
+   ============================================ */
+.result2 {
+  padding: 16px var(--page-x) 28px;
+}
+.result2__claim {
+  padding: 16px;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  background: var(--white);
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1.45;
+  letter-spacing: -0.3px;
+}
+
+/* 라벨 · 배지 줄 */
+.tagcard {
+  margin-top: 12px;
+  padding: 14px 16px;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  background: var(--white);
+}
+.tagcard__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.tagcard__mark {
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--green-500);
+  color: var(--white);
+}
+.tagcard--warn .tagcard__mark {
+  background: #e8a33d;
+}
+.tagcard__mark svg {
+  width: 12px;
+  height: 12px;
+}
+.tagcard__name {
+  font-size: 14.5px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+}
+.tagcard__link {
+  margin-left: auto;
+  flex: 0 0 auto;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--green-600);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.tagcard__meta {
+  margin-top: 10px;
+  font-size: 11.5px;
+  color: var(--gray-400);
+}
+.tagcard__desc {
+  margin-top: 6px;
+  font-size: 12.5px;
+  color: var(--gray-700);
+  line-height: 1.6;
+}
+
+/* 섹션 카드 */
+.sect {
+  margin-top: 22px;
+}
+.sect__title {
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  margin-bottom: 10px;
+}
+.sect__card {
+  padding: 16px;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  background: var(--white);
+}
+.sect__label {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--gray-800);
+  margin-bottom: 8px;
+}
+.sect__body {
+  font-size: 12.5px;
+  color: var(--gray-700);
+  line-height: 1.7;
+}
+.sect__more {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--green-600);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* 목록형 */
+.deflist dt {
+  font-size: 12.5px;
+  font-weight: 800;
+  color: var(--gray-800);
+}
+.deflist dd {
+  margin: 4px 0 12px;
+  font-size: 12.5px;
+  color: var(--gray-600, var(--gray-500));
+  line-height: 1.6;
+}
+.deflist dd:last-child {
+  margin-bottom: 0;
+}
+
+.bullets li {
+  position: relative;
+  padding-left: 12px;
+  font-size: 12.5px;
+  color: var(--gray-700);
+  line-height: 1.75;
+}
+.bullets li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 9px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--green-500);
+}
+
+.rowtable {
+  width: 100%;
+  border-collapse: collapse;
+}
+.rowtable th,
+.rowtable td {
+  padding: 10px 2px;
+  border-bottom: 1px solid var(--gray-100);
+  font-size: 12.5px;
+}
+.rowtable th {
+  width: 76px;
+  text-align: left;
+  font-weight: 500;
+  color: var(--gray-500);
+}
+.rowtable td {
+  font-weight: 700;
+}
+
+/* 결과 공유 */
+.share {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.share__note {
+  margin-top: 4px;
+  font-size: 11.5px;
+  color: var(--gray-400);
+  text-align: center;
+}
+
+/* ---------- 근거 계층 라벨 ---------- */
+.levelcard {
+  padding: 16px;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  background: var(--white);
+}
+.levelcard + .levelcard {
+  margin-top: 10px;
+}
+.levelcard__name {
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+}
+.levelcard__trust {
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11.5px;
+  color: var(--gray-500);
+}
+.levelcard__trust b {
+  color: var(--gray-900);
+  font-weight: 800;
+}
+.gauge {
+  flex: 1 1 auto;
+  max-width: 120px;
+  height: 6px;
+  border-radius: 999px;
+  background: var(--gray-200);
+  overflow: hidden;
+}
+.gauge span {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: var(--green-500);
+}
+.levelcard__desc {
+  margin-top: 10px;
+  font-size: 12.5px;
+  color: var(--gray-700);
+  line-height: 1.6;
+}
+.levelcard__ex {
+  margin-top: 8px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--gray-100);
+  font-size: 11.5px;
+  color: var(--gray-500);
+  line-height: 1.55;
+}
+
+/* ---------- 하단 고정 버튼 ---------- */
+.pagecta {
+  flex: 0 0 auto;
+  padding: 12px var(--page-x) 18px;
+  border-top: 1px solid var(--gray-200);
+  background: var(--white);
+  display: flex;
+  gap: 10px;
+}
+.pagecta .btn {
+  flex: 1 1 0;
+}
+.btn--ghost {
+  border: 1px solid var(--gray-300);
+  background: var(--white);
+  color: var(--gray-800);
+}
+
+/* ---------- 공유 확인 모달 ---------- */
+.confirm[hidden] {
+  display: none;
+}
+.confirm {
+  position: absolute;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-items: center;
+  padding: 0 28px;
+  background: rgba(22, 24, 26, 0.45);
+}
+.confirm__box {
+  width: 100%;
+  padding: 20px;
+  border-radius: var(--radius-md);
+  background: var(--white);
+  box-shadow: var(--shadow-float);
+}
+.confirm__title {
+  font-size: 15px;
+  font-weight: 800;
+}
+.confirm__desc {
+  margin-top: 10px;
+  font-size: 12.5px;
+  color: var(--gray-500);
+  line-height: 1.6;
+}
+.confirm__actions {
+  margin-top: 16px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+.confirm__btn {
+  height: 36px;
+  padding: 0 16px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 700;
+}
+.confirm__btn--cancel {
+  border: 1px solid var(--gray-300);
+  color: var(--gray-700);
+}
+.confirm__btn--ok {
+  background: var(--green-500);
+  color: var(--white);
+}
+
+/* ---------- 판정 중 ---------- */
+.result2.is-waiting .rsect {
+  display: none;
+}
+.result2.is-waiting .rsect:first-of-type {
+  display: block;
+}
+.result2.is-waiting .rsect:first-of-type .rsect__title,
+.result2.is-waiting .vcard__thumb,
+.result2.is-waiting .vcard__state,
+.result2.is-waiting .vcard__meta,
+.result2.is-waiting .vcard__result {
+  display: none;
+}
+.result2.is-waiting .vcard__claim {
+  text-align: center;
+  font-size: 14px;
+  color: var(--gray-500);
+  font-weight: 600;
+}
+.result2.is-waiting .vcard__claim::after {
+  content: '';
+  display: block;
+  width: 28px;
+  height: 28px;
+  margin: 16px auto 4px;
+  border: 3px solid var(--green-100);
+  border-top-color: var(--green-500);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ============================================
+   판정 결과 — 새 목업 (2026.08)
+   ============================================ */
+
+/* ---------- 섹션 제목 ---------- */
+.rsect {
+  margin-top: 24px;
+}
+.rsect:first-child {
+  margin-top: 4px;
+}
+.rsect__title {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  color: var(--gray-500);
+}
+.rsect__title svg {
+  width: 14px;
+  height: 14px;
+  color: #e8a33d;
+}
+
+/* ---------- 카드 공통 ---------- */
+.rc {
+  padding: 18px;
+  border-radius: 20px;
+  background: var(--white);
+  box-shadow: var(--shadow-card);
+}
+.rc + .rc {
+  margin-top: 12px;
+}
+.rc--tint {
+  background: var(--green-050);
+}
+.rc--warn {
+  background: #fff8ec;
+}
+
+/* 카드 머리 (아이콘 + 제목) */
+.rc__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.rc__ico {
+  flex: 0 0 auto;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  background: var(--green-100);
+  color: var(--green-600);
+}
+.rc__ico svg {
+  width: 18px;
+  height: 18px;
+}
+.rc__ico--warn {
+  background: #ffe9c4;
+  color: #d98d1e;
+  font-size: 17px;
+  font-weight: 800;
+}
+.rc__title {
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -0.4px;
+}
+.rc__rule {
+  width: 26px;
+  height: 3px;
+  margin: 8px 0 10px;
+  border-radius: 2px;
+  background: var(--green-500);
+}
+.rc__text {
+  font-size: 12.5px;
+  color: var(--gray-700);
+  line-height: 1.65;
+}
+.rc__text + .rc__text {
+  margin-top: 10px;
+}
+.rc__more {
+  display: inline-block;
+  margin-top: 12px;
+  font-size: 12.5px;
+  font-weight: 800;
+  color: var(--green-600);
+}
+
+/* ---------- 판정 결과 카드 ---------- */
+.vcard__top {
+  display: flex;
+  gap: 14px;
+}
+.vcard__thumb {
+  flex: 0 0 auto;
+  width: 96px;
+  height: 96px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border-radius: 14px;
+  background: var(--gray-100);
+  color: var(--gray-400);
+}
+.vcard__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.vcard__thumb svg {
+  width: 30px;
+  height: 30px;
+}
+.vcard__claim {
+  font-size: 17px;
+  font-weight: 800;
+  line-height: 1.35;
+  letter-spacing: -0.5px;
+  word-break: keep-all;
+}
+.vcard__state {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 4px 10px;
+  border-radius: 8px;
+  background: var(--green-100);
+  font-size: 11.5px;
+  font-weight: 800;
+  color: #5f8f26;
+}
+.vcard__meta {
+  margin-top: 8px;
+  font-size: 11.5px;
+  color: var(--gray-400);
+}
+.vcard__meta b {
+  font-weight: 600;
+  color: var(--gray-500);
+}
+.vcard__meta span {
+  margin-left: 10px;
+}
+
+/* 결과 줄 */
+.vcard__result {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 16px;
+  padding: 14px 16px;
+  border: 1px solid var(--gray-200);
+  border-radius: 16px;
+}
+.vmark {
+  flex: 0 0 auto;
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--green-500);
+  color: var(--white);
+  font-size: 19px;
+  font-weight: 800;
+  line-height: 1;
+}
+.vmark svg {
+  width: 21px;
+  height: 21px;
+}
+.vcard__vlabel {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--gray-500);
+}
+.vcard__vname {
+  margin-top: 2px;
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.4px;
+}
+.vcard__vname span {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--gray-500);
+}
+.vcard__link {
+  margin-left: auto;
+  flex: 0 0 auto;
+  align-self: flex-end;
+}
+
+/* ---------- 알약 버튼 ---------- */
+.pillbtn {
+  display: inline-block;
+  padding: 7px 14px;
+  border: 1px solid var(--green-400);
+  border-radius: 999px;
+  background: var(--white);
+  font-size: 12px;
+  font-weight: 800;
+  color: #5f8f26;
+  white-space: nowrap;
+}
+.pillbtn:active {
+  background: var(--green-050);
+}
+
+/* ---------- 글머리 목록 ---------- */
+.rlist {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.rlist li {
+  position: relative;
+  padding-left: 12px;
+  font-size: 12.5px;
+  color: var(--gray-700);
+  line-height: 1.65;
+  word-break: keep-all;
+}
+.rlist li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--gray-400);
+}
+
+/* ---------- 번호형 단계 목록 ---------- */
+.steps {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.steps__item {
+  display: flex;
+  gap: 10px;
+}
+.steps__no {
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  margin-top: 1px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--green-500);
+  color: var(--white);
+  font-size: 11px;
+  font-weight: 800;
+}
+.steps__title {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  line-height: 1.45;
+  word-break: keep-all;
+}
+.steps__desc {
+  margin-top: 3px;
+  font-size: 12px;
+  color: var(--gray-500);
+  line-height: 1.55;
+  word-break: keep-all;
+}
+
+/* ---------- 공유 버튼 ---------- */
+.rshare {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.rshare .btn {
+  border-radius: 14px;
+  font-size: 14.5px;
+}
+.rshare__note {
+  margin-top: 2px;
+  font-size: 11.5px;
+  color: var(--gray-400);
+}
+
+/* ---------- 근거 계층 라벨 ---------- */
+.lvlnow__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.lvlnow__name {
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.4px;
+}
+.lvlnow__sub {
+  margin-top: 3px;
+  font-size: 11.5px;
+  color: var(--gray-500);
+}
+.lvlnow__line {
+  height: 1px;
+  margin: 14px 0 12px;
+  background: var(--gray-200);
+}
+.lvlnow__trust {
+  font-size: 13.5px;
+  font-weight: 800;
+}
+
+.lvl {
+  padding: 0 0 16px;
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--white);
+  box-shadow: var(--shadow-card);
+}
+.lvl + .lvl {
+  margin-top: 12px;
+}
+.lvl__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  background: var(--gray-100);
+}
+.lvl__name {
+  font-size: 14.5px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+}
+.lvl__action {
+  margin-left: auto;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--gray-500);
+}
+.lvl__body {
+  padding: 0 16px;
+}
+.lvl__desc {
+  margin-top: 12px;
+  font-size: 12.5px;
+  color: var(--gray-700);
+  line-height: 1.65;
+  word-break: keep-all;
+}
+.lvl__ex {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--gray-100);
+  font-size: 12px;
+  color: var(--gray-700);
+  line-height: 1.55;
+  word-break: keep-all;
+}
+.lvl__ex b {
+  flex: 0 0 auto;
+  font-weight: 800;
+  color: var(--green-600);
+}
+
+/* 동그란 등급 표시 */
+.lmark {
+  flex: 0 0 auto;
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--green-500);
+  color: var(--white);
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1;
+}
+.lmark--lg {
+  width: 40px;
+  height: 40px;
+  font-size: 19px;
+}
+
+/* 5칸 막대 */
+.segbar {
+  display: flex;
+  gap: 5px;
+  margin-top: 14px;
+}
+.segbar span {
+  flex: 1 1 0;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--gray-200);
+}
+.segbar span.is-on {
+  background: var(--green-500);
+}
+.segbar--inline {
+  flex: 1 1 auto;
+  margin-top: 0;
+}
+
+/* ---------- 배지 설명 — 신뢰도 평가 줄 ---------- */
+.rateline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--gray-200);
+}
+.rateline__tag {
+  flex: 0 0 auto;
+  padding: 5px 10px;
+  border-radius: 8px;
+  background: var(--green-100);
+  font-size: 11.5px;
+  font-weight: 800;
+  color: #5f8f26;
+}
+.rateline__value {
+  flex: 0 0 auto;
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--gray-800);
+}
+
+/* ---------- 체크 목록 (주의 안내) ---------- */
+.checks {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.checks li {
+  display: flex;
+  gap: 9px;
+  font-size: 12.5px;
+  color: var(--gray-700);
+  line-height: 1.6;
+  word-break: keep-all;
+}
+.checks li::before {
+  content: '✓';
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  margin-top: 1px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #f5a623;
+  color: var(--white);
+  font-size: 10px;
+  font-weight: 800;
+}
+
+/* ---------- 근거 요약 ---------- */
+.srcbox {
+  margin-top: 14px;
+  padding: 14px;
+  border-radius: 12px;
+  background: var(--gray-100);
+  font-size: 12.5px;
+  color: var(--gray-700);
+  line-height: 1.9;
+}
+.kvlist {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.kvlist li {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 12.5px;
+  color: var(--gray-700);
+}
+.kvlist li::before {
+  content: '';
+  flex: 0 0 auto;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--green-500);
+}
+.kvlist b {
+  font-weight: 800;
+  color: var(--gray-900);
+}
+
+/* 화면 맨 위 제목 */
+.rhead {
+  padding: 18px var(--page-x) 0;
+}
+.rhead__title {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: var(--gray-500);
+}
+.rhead__sub {
+  margin-top: 6px;
+  font-size: 12.5px;
+  color: var(--gray-500);
+  line-height: 1.6;
+}
+.rhead__badge {
+  float: right;
+  width: 46px;
+  height: 46px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--green-050);
+  color: var(--green-600);
+}
+.rhead__badge svg {
+  width: 24px;
+  height: 24px;
+}
+.rhead--dark .rhead__title {
+  color: var(--gray-900);
+}
+
+/* 아래 텍스트 링크 */
+.backlink {
+  display: inline-block;
+  margin-top: 18px;
+  font-size: 12.5px;
+  color: var(--gray-500);
+}
+
+/* ============================================
+   설명 화면 (근거 계층 라벨 / 상업적 가능성 배지 / 근거 요약)
+   ============================================ */
+
+/* ---------- 페이지 머리말 ---------- */
+.pagehead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.pagehead__title {
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+.pagehead__sub {
+  margin-top: 5px;
+  font-size: 12.5px;
+  color: var(--gray-500);
+}
+.pagehead__ico {
+  flex: 0 0 auto;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: var(--green-050);
+  display: grid;
+  place-items: center;
+  color: var(--green-600);
+}
+.pagehead__ico svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* ---------- 아이콘 카드 ---------- */
+.icard {
+  padding: 16px;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  background: var(--white);
+}
+.icard + .icard {
+  margin-top: 12px;
+}
+.icard--tint {
+  background: var(--green-050);
+  border-color: var(--green-100);
+}
+.icard--warn {
+  background: #fff8ec;
+  border-color: #ffe3ba;
+}
+.icard__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.icard__ico {
+  flex: 0 0 auto;
+  width: 42px;
+  height: 42px;
+  border-radius: 13px;
+  display: grid;
+  place-items: center;
+  background: var(--green-100);
+  color: var(--green-600);
+}
+.icard__ico svg {
+  width: 21px;
+  height: 21px;
+}
+.icard--tint .icard__ico {
+  background: var(--white);
+}
+.icard--warn .icard__ico {
+  background: #ffe9c9;
+  color: #e08a00;
+  font-size: 19px;
+  font-weight: 800;
+}
+.icard__title {
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+}
+.icard__sub {
+  margin-top: 3px;
+  font-size: 12px;
+  color: var(--gray-500);
+}
+.icard__rule {
+  margin-top: 12px;
+  width: 26px;
+  height: 3px;
+  border-radius: 999px;
+  background: var(--green-500);
+}
+.icard--warn .icard__rule {
+  background: #f0a020;
+}
+.icard__text {
+  margin-top: 12px;
+  font-size: 12.5px;
+  color: var(--gray-700);
+  line-height: 1.75;
+}
+.icard__box {
+  margin-top: 12px;
+  padding: 14px;
+  border-radius: var(--radius-md);
+  background: var(--gray-100);
+  font-size: 12.5px;
+  color: var(--gray-700);
+  line-height: 2;
+}
+
+/* 신뢰도 평가 줄 */
+.icard__foot {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--gray-200);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.icard__foot b {
+  flex: 0 0 auto;
+  font-size: 12px;
+  font-weight: 800;
+}
+.pill-label {
+  flex: 0 0 auto;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: var(--green-100);
+  color: #5f9c1a;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+/* 5칸 게이지 */
+.segbar {
+  display: flex;
+  gap: 5px;
+}
+.segbar span {
+  flex: 1 1 0;
+  height: 7px;
+  border-radius: 999px;
+  background: var(--gray-200);
+}
+.segbar span.is-on {
+  background: var(--green-500);
+}
+
+/* 체크 목록 (주의 안내) */
+.checklist {
+  margin-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.checklist li {
+  display: flex;
+  gap: 10px;
+  font-size: 12.5px;
+  color: var(--gray-700);
+  line-height: 1.7;
+}
+.checklist li::before {
+  content: '✓';
+  flex: 0 0 auto;
+  width: 19px;
+  height: 19px;
+  margin-top: 2px;
+  border-radius: 50%;
+  background: #f5a623;
+  color: var(--white);
+  font-size: 11px;
+  font-weight: 800;
+  display: grid;
+  place-items: center;
+}
+
+/* ---------- 근거 계층 라벨 ---------- */
+.lvnow {
+  margin-bottom: 14px;
+  padding: 18px 16px;
+  border: 1px solid var(--green-100);
+  border-radius: var(--radius-lg);
+  background: var(--green-050);
+}
+.lvnow__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.lvnow__name {
+  font-size: 16.5px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+}
+.lvnow__sub {
+  margin-top: 3px;
+  font-size: 12px;
+  color: var(--gray-500);
+}
+.lvnow__div {
+  margin: 14px 0 12px;
+  height: 1px;
+  background: var(--green-100);
+}
+.lvnow__trust {
+  font-size: 13.5px;
+  font-weight: 800;
+}
+.lvnow__desc {
+  margin-top: 7px;
+  font-size: 12.5px;
+  color: var(--gray-700);
+  line-height: 1.7;
+}
+
+.lvcard {
+  padding: 14px;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  background: var(--white);
+  box-shadow: var(--shadow-card);
+}
+.lvcard + .lvcard {
+  margin-top: 12px;
+}
+.lvcard__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  background: var(--gray-100);
+}
+.lvcard__name {
+  flex: 1 1 auto;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+}
+.lvcard__act {
+  flex: 0 0 auto;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--gray-500);
+}
+.lvcard .segbar {
+  margin-top: 13px;
+}
+.lvcard__desc {
+  margin-top: 13px;
+  font-size: 12.5px;
+  color: var(--gray-700);
+  line-height: 1.7;
+}
+.lvcard__ex {
+  margin-top: 12px;
+  padding: 12px;
+  border-radius: var(--radius-md);
+  background: var(--gray-100);
+  display: flex;
+  gap: 8px;
+  font-size: 11.5px;
+  color: var(--gray-500);
+  line-height: 1.6;
+}
+.lvcard__ex b {
+  flex: 0 0 auto;
+  color: #5f9c1a;
+  font-weight: 800;
+}
+
+/* 아이콘 원형 배지 (O / ✓ / ? / x) */
+.lvbadge {
+  flex: 0 0 auto;
+  width: 27px;
+  height: 27px;
+  border-radius: 50%;
+  background: var(--green-500);
+  color: var(--white);
+  font-size: 13px;
+  font-weight: 800;
+  display: grid;
+  place-items: center;
+  line-height: 1;
+}
+.lvbadge--lg {
+  width: 38px;
+  height: 38px;
+  font-size: 18px;
+}
+
+/* ---------- 근거 요약 ---------- */
+.keylist {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.keylist li {
+  position: relative;
+  padding-left: 14px;
+  font-size: 12.5px;
+  color: var(--gray-700);
+  line-height: 1.6;
+}
+.keylist li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 7px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--green-500);
+}
+.keylist b {
+  font-weight: 800;
+  color: var(--gray-900);
+}
+
+/* 아래쪽 작은 되돌아가기 링크 */
+.backlink {
+  display: inline-block;
+  margin: 18px 0 4px;
+  font-size: 12px;
+  color: var(--gray-500);
+}

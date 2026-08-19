@@ -1,0 +1,5 @@
+# 공유 링크 — /share/{토큰} 을 share.html 이 처리합니다
+/share/*  /share.html  200
+
+# 없는 주소는 시작 화면으로
+/*  /index.html  404

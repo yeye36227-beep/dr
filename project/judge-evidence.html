@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Dr.Judge · 근거 요약</title>
+    <link rel="icon" type="image/png" href="/assets/app-icon.png" />
+    <link rel="stylesheet" href="common.css" />
+    <link rel="stylesheet" href="tabs.css" />
+    <link rel="stylesheet" href="judge.css" />
+    <link rel="stylesheet" href="mypage.css" />
+    <link rel="stylesheet" href="result.css" />
+  </head>
+  <body>
+    <div class="app tabpage resultpage">
+      <header class="subhead">
+        <a href="./judge-result.html" class="subhead__back" id="backLink" aria-label="뒤로">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m15 5-7 7 7 7" />
+          </svg>
+        </a>
+        <h1 class="subhead__title">근거 요약 확인</h1>
+      </header>
+
+      <div class="scroll-area">
+        <section class="result2">
+          <!-- 지금 판정의 라벨 -->
+          <div class="icard icard--tint">
+            <div class="icard__head">
+              <span class="lvbadge lvbadge--lg" id="levelMark" aria-hidden="true">✓</span>
+              <div>
+                <h2 class="icard__title" id="levelName">임상적 근거 있음</h2>
+                <p class="icard__sub" id="levelSub">
+                  이 주장에 대해 임상 연구 결과가 있습니다.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- 근거의 출처 -->
+          <div class="icard">
+            <div class="icard__head">
+              <span class="icard__ico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                  <rect x="4" y="3.5" width="16" height="17" rx="2.5" />
+                  <path d="M8 8.5h8M8 12h8M8 15.5h5" />
+                </svg>
+              </span>
+              <h3 class="icard__title">근거의 출처</h3>
+            </div>
+            <div class="icard__box" id="sourceBox">
+              식약처 공식 기준<br />
+              일반의약품 임상 가이드라인
+            </div>
+          </div>
+
+          <!-- 핵심 요약 -->
+          <div class="icard">
+            <div class="icard__head">
+              <span class="icard__ico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8-5.2-2.7-5.2 2.7 1-5.8L3.5 9.7l5.9-.9L12 3.5Z" />
+                </svg>
+              </span>
+              <h3 class="icard__title">핵심 요약</h3>
+            </div>
+            <ul class="keylist" id="keyList">
+              <li><b>대상:</b> 성인</li>
+              <li><b>효과:</b> 혈당 수치 개선</li>
+              <li><b>조건:</b> 1일 1회, 식후 복용</li>
+            </ul>
+          </div>
+
+          <!-- 적용 범위 -->
+          <div class="icard">
+            <div class="icard__head">
+              <span class="icard__ico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 4v16M7 20h10M5 8h14M5 8l-2.5 5.5h5L5 8Zm14 0-2.5 5.5h5L19 8Z" />
+                </svg>
+              </span>
+              <h3 class="icard__title">적용 범위</h3>
+            </div>
+            <p class="icard__text">
+              이 근거는 건강한 성인을 대상으로 한 연구에서 나온 결과입니다.
+            </p>
+            <p class="icard__text">
+              당뇨병이 있는 경우 담당 의료진과 상담 후 사용해주세요.
+            </p>
+          </div>
+
+          <!-- 주의 사항 -->
+          <div class="icard">
+            <div class="icard__head">
+              <span class="icard__ico" aria-hidden="true">!</span>
+              <h3 class="icard__title">주의 사항</h3>
+            </div>
+            <p class="icard__text">
+              이 서비스는 의료 진단·처방을 대체하지 않습니다.
+            </p>
+            <p class="icard__text">증상이 있다면 전문가와 상담하세요.</p>
+          </div>
+
+          <a href="./judge-result.html" class="backlink" id="backText">판정 결과로 돌아가기</a>
+        </section>
+      </div>
+    </div>
+
+    <script src="common.js"></script>
+    <script src="data.js"></script>
+    <script src="store.js"></script>
+    <script>
+      (function () {
+        const esc = (s) =>
+          String(s).replace(
+            /[&<>"']/g,
+            (c) =>
+              ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c],
+          );
+
+        const judgmentId = new URLSearchParams(location.search).get('id');
+        if (judgmentId) {
+          const to = './judge-result.html?id=' + encodeURIComponent(judgmentId);
+          document.getElementById('backLink').href = to;
+          document.getElementById('backText').href = to;
+        }
+
+        /* 판정 결과 화면이 저장해 둔 값이 있으면 그걸로 채웁니다.
+           없으면 HTML 에 적힌 예시가 그대로 보입니다. */
+        const r =
+          typeof Store !== 'undefined' && judgmentId ? Store.getResult(judgmentId) : null;
+        if (!r) return;
+
+        const lv = typeof levelOf === 'function' ? levelOf(r.level) : null;
+        if (lv) {
+          document.getElementById('levelMark').textContent = lv.icon;
+          document.getElementById('levelName').textContent = r.levelLabel || lv.name;
+          document.getElementById('levelSub').textContent = lv.desc;
+        } else if (r.levelLabel) {
+          document.getElementById('levelName').textContent = r.levelLabel;
+        }
+
+        if (r.sources && r.sources.length) {
+          document.getElementById('sourceBox').innerHTML = r.sources
+            .map(function (s) {
+              return esc(s);
+            })
+            .join('<br />');
+        }
+
+        /* 서버가 대상·효과·조건을 주면 그걸로 바꿉니다 */
+        const key = r.keyPoints || r.summaryPoints;
+        if (key && typeof key === 'object' && !Array.isArray(key)) {
+          const rows = [
+            ['대상', key.target],
+            ['효과', key.effect],
+            ['조건', key.condition],
+          ].filter(function (row) {
+            return row[1];
+          });
+          if (rows.length) {
+            document.getElementById('keyList').innerHTML = rows
+              .map(function (row) {
+                return '<li><b>' + esc(row[0]) + ':</b> ' + esc(row[1]) + '</li>';
+              })
+              .join('');
+          }
+        }
+      })();
+    </script>
+  </body>
+</html>
