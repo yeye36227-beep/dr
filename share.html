@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Dr.Judge · 판정 결과</title>
+    <link rel="icon" type="image/png" href="/assets/app-icon.png" />
+    <link rel="stylesheet" href="/common.css" />
+    <link rel="stylesheet" href="/tabs.css" />
+    <link rel="stylesheet" href="/judge.css" />
+    <link rel="stylesheet" href="/mypage.css" />
+    <link rel="stylesheet" href="/result.css" />
+    <link rel="stylesheet" href="/share.css" />
+  </head>
+  <body>
+    <div class="app tabpage resultpage sharepage">
+      <header class="sharehead">
+        <img class="sharehead__logo" src="/assets/logo.png" alt="" data-fallback="logo" />
+        <p class="sharehead__name">Dr.Judge</p>
+      </header>
+
+      <div class="scroll-area">
+        <section class="result2" id="result">
+          <p class="result2__claim" id="claimText">판정 결과를 불러오는 중…</p>
+
+          <div class="tagcard" id="levelCard" hidden>
+            <div class="tagcard__head">
+              <span class="tagcard__mark" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5" /></svg>
+              </span>
+              <span class="tagcard__name" id="levelName"></span>
+            </div>
+            <p class="tagcard__meta" id="levelSources"></p>
+            <p class="tagcard__desc" id="levelDesc"></p>
+          </div>
+
+          <div class="tagcard tagcard--warn" id="conflictCard" hidden>
+            <div class="tagcard__head">
+              <span class="tagcard__mark" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11 7h2v6h-2zM11 15h2v2h-2z" /></svg>
+              </span>
+              <span class="tagcard__name" id="conflictName"></span>
+            </div>
+            <p class="tagcard__desc" id="conflictDesc"></p>
+          </div>
+
+          <section class="sect" id="evidenceSect" hidden>
+            <h2 class="sect__title">근거 요약</h2>
+            <div class="sect__card">
+              <ul class="bullets" id="sourceList"></ul>
+              <p class="sect__body" id="evidenceText" style="margin-top: 10px"></p>
+            </div>
+          </section>
+
+          <section class="sect" id="guideSect" hidden>
+            <h2 class="sect__title" id="guideTitle">구매 기준 카드</h2>
+            <div class="sect__card">
+              <ul class="bullets" id="guideTips"></ul>
+            </div>
+          </section>
+
+          <section class="sect">
+            <div class="notice-card">
+              <h2 class="notice-card__title">의료 안전 안내</h2>
+              <p id="safetyText">
+                이 서비스는 의료 진단·처방을 대체하지 않습니다. 증상이 있다면
+                전문가와 상담하세요.
+              </p>
+            </div>
+          </section>
+        </section>
+      </div>
+
+      <footer class="sharecta">
+        <p class="sharecta__text">궁금한 건강 정보, 직접 확인해 보세요</p>
+        <a href="/index.html" class="btn btn--block btn--lg btn--primary">
+          Dr.Judge 시작하기
+        </a>
+      </footer>
+    </div>
+
+    <script src="/common.js"></script>
+    <script src="/store.js"></script>
+    <script src="/data.js"></script>
+    <script src="/api.js"></script>
+    <script src="/share.js"></script>
+  </body>
+</html>

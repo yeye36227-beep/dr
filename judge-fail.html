@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Dr.Judge · 추출 실패 안내</title>
+    <link rel="icon" type="image/png" href="/assets/app-icon.png" />
+    <link rel="stylesheet" href="common.css" />
+    <link rel="stylesheet" href="tabs.css" />
+    <link rel="stylesheet" href="judge.css" />
+    <link rel="stylesheet" href="mypage.css" />
+    <link rel="stylesheet" href="result.css" />
+  </head>
+  <body>
+    <div class="app tabpage resultpage">
+      <header class="subhead">
+        <a href="./judge-image.html" class="subhead__back" aria-label="뒤로">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m15 5-7 7 7 7" />
+          </svg>
+        </a>
+        <h1 class="subhead__title">추출 실패 안내</h1>
+      </header>
+
+      <div class="scroll-area">
+        <section class="guidepage">
+          <div class="guidepage__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M11 5h2v9h-2zM11 16h2v3h-2z" /></svg>
+          </div>
+          <h2 class="guidepage__title">텍스트를 읽을 수 없었어요</h2>
+          <p class="guidepage__desc">
+            이미지가 흐리거나 글씨가 작으면<br />OCR이 작동하지 않을 수 있습니다.
+          </p>
+
+          <h3 class="guidepage__h">다음 방법을 시도해보세요</h3>
+          <div class="optionlist">
+            <a href="./judge-image.html" class="optionlist__item">
+              <span class="optionlist__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3.5" y="5" width="17" height="14" rx="2.5" /><circle cx="12" cy="12" r="3.4" />
+                </svg>
+              </span>
+              <span class="optionlist__text">
+                <b>이미지를 재촬영 및 글씨가 선명한지 확인</b>
+                <span>흔들림 없이 초점을 맞춰 촬영해주세요.</span>
+              </span>
+              <span class="optionlist__arrow" aria-hidden="true"></span>
+            </a>
+
+            <a href="./judge-text.html" class="optionlist__item">
+              <span class="optionlist__icon" aria-hidden="true">T</span>
+              <span class="optionlist__text">
+                <b>해당 텍스트를 직접 입력하기</b>
+                <span>직접 입력하면 더 빠르게 판정할 수 있어요.</span>
+              </span>
+              <span class="optionlist__arrow" aria-hidden="true"></span>
+            </a>
+
+            <a href="./judge-link.html" class="optionlist__item">
+              <span class="optionlist__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M8 16 16.5 7.5" /><path d="M9.5 7.5h7v7" />
+                </svg>
+              </span>
+              <span class="optionlist__text">
+                <b>다른 링크나 출처 확인하기</b>
+                <span>공식 출처나 신뢰할 수 있는 정보를 확인해보세요.</span>
+              </span>
+              <span class="optionlist__arrow" aria-hidden="true"></span>
+            </a>
+          </div>
+
+          <h3 class="guidepage__h">판정을 계속하려면</h3>
+          <a href="./judge-text.html" class="btn btn--block btn--lg btn--primary">
+            텍스트 직접 입력
+          </a>
+        </section>
+      </div>
+
+      <nav class="tabbar" data-active="judge"></nav>
+
+    </div>
+
+    <script src="common.js"></script>
+    <script src="store.js"></script>
+    <script src="data.js"></script>
+  </body>
+</html>

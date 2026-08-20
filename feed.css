@@ -1,0 +1,383 @@
+/* ============================================
+   Dr.Judge — 공유 피드 탭 · 상세
+   ============================================ */
+
+.feedpage {
+  background: #fafbfa;
+}
+
+/* ---------- 헤더 ---------- */
+.feedhead {
+  flex: 0 0 auto;
+  padding: 10px var(--page-x) 14px;
+  background: var(--white);
+}
+.feedhead__title {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+.feedhead__desc {
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--gray-500);
+  line-height: 1.5;
+}
+
+/* 정렬 필 */
+.pills {
+  margin-top: 14px;
+  display: flex;
+  gap: 8px;
+}
+.pills__item {
+  height: 32px;
+  padding: 0 16px;
+  border-radius: 999px;
+  background: var(--gray-100);
+  color: var(--gray-500);
+  font-size: 13px;
+  font-weight: 700;
+  transition:
+    background 0.2s var(--ease),
+    color 0.2s var(--ease);
+}
+.pills__item.is-active {
+  background: var(--green-500);
+  color: var(--white);
+}
+
+/* ---------- 판정 카드 ---------- */
+.cardlist {
+  padding: 14px var(--page-x) 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.pcard {
+  padding: 16px;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  background: var(--white);
+  box-shadow: var(--shadow-card);
+  cursor: pointer;
+  transition: transform 0.15s var(--ease);
+}
+.pcard:active {
+  transform: scale(0.99);
+}
+.pcard__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.pcard__cat {
+  font-size: 11.5px;
+  color: var(--gray-500);
+}
+.badge-done {
+  flex: 0 0 auto;
+  padding: 4px 9px;
+  border-radius: 6px;
+  background: var(--green-100);
+  color: #4f8a1c;
+  font-size: 10.5px;
+  font-weight: 800;
+}
+.pcard__title {
+  margin: 10px 0 8px;
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.4;
+  letter-spacing: -0.4px;
+}
+.pcard__desc {
+  font-size: 12.5px;
+  color: var(--gray-500);
+  line-height: 1.55;
+}
+
+/* 판정 결과 줄 */
+.verdict-row {
+  margin-top: 12px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  background: var(--gray-100);
+}
+.verdict-row__icon {
+  flex: 0 0 auto;
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--green-500);
+  color: var(--white);
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1;
+}
+.verdict-row__icon svg {
+  width: 12px;
+  height: 12px;
+}
+.verdict-row__label {
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--gray-900);
+}
+.verdict-row__hint {
+  margin-left: auto;
+  font-size: 11.5px;
+  color: var(--gray-500);
+}
+
+.pcard__foot {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--gray-100);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11.5px;
+  color: var(--gray-400);
+}
+.pcard__like {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.pcard__like svg {
+  width: 15px;
+  height: 15px;
+}
+
+/* ============================================
+   상세 보기
+   ============================================ */
+.detail {
+  padding: 14px var(--page-x) 24px;
+}
+.detail__head {
+  position: relative;
+  padding: 18px 16px;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  background: var(--white);
+  box-shadow: var(--shadow-card);
+}
+.detail__badge {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+}
+.detail__title {
+  padding-right: 66px;
+  font-size: 17px;
+  font-weight: 800;
+  line-height: 1.4;
+  letter-spacing: -0.4px;
+}
+.detail__meta {
+  margin-top: 16px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 11.5px;
+  color: var(--gray-400);
+}
+
+.detail__card {
+  margin-top: 12px;
+  padding: 18px 16px;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  background: var(--white);
+  box-shadow: var(--shadow-card);
+}
+
+/* 판정 결과 */
+.result {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--gray-100);
+}
+.result__icon {
+  flex: 0 0 auto;
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--green-500);
+  color: var(--white);
+}
+.result__icon svg {
+  width: 22px;
+  height: 22px;
+}
+.result__label {
+  display: block;
+  font-size: 11.5px;
+  color: var(--gray-400);
+}
+.result__value {
+  display: block;
+  margin-top: 2px;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.4px;
+}
+.result__summary {
+  margin-left: auto;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--green-600);
+}
+
+.detail__h {
+  margin: 20px 0 10px;
+  font-size: 14.5px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+}
+.detail__body {
+  font-size: 12.5px;
+  color: var(--gray-700);
+  line-height: 1.7;
+}
+
+/* 판정 정보 표 */
+.infotable {
+  width: 100%;
+  /* fixed 가 아니면 긴 URL 이 칸 너비를 정해 버려서, 항목 이름이 세로로
+     한 글자씩 접히고 값은 화면 밖으로 밀려납니다. */
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+.infotable th,
+.infotable td {
+  padding: 12px 2px;
+  border-bottom: 1px solid var(--gray-100);
+  font-size: 12.5px;
+}
+.infotable th {
+  width: 72px;
+  text-align: left;
+  font-weight: 500;
+  color: var(--gray-500);
+  white-space: nowrap;
+}
+.infotable td {
+  text-align: right;
+  font-weight: 700;
+  color: var(--gray-900);
+  overflow-wrap: anywhere;
+}
+
+/* 체크포인트 */
+.checkbox-card {
+  margin-top: 18px;
+  padding: 14px;
+  border: 1px solid var(--green-100);
+  border-radius: var(--radius-md);
+  background: var(--green-050);
+}
+.checkbox-card__title {
+  font-size: 13.5px;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+.checkbox-card__list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--gray-700);
+  line-height: 1.55;
+}
+.checkbox-card__list li + li {
+  margin-top: 8px;
+}
+.checkbox-card__mark {
+  flex: 0 0 auto;
+  margin-top: 2px;
+  width: 13px;
+  height: 13px;
+  display: grid;
+  place-items: center;
+  color: #6fb32b;
+}
+.checkbox-card__mark svg {
+  width: 13px;
+  height: 13px;
+}
+.checkbox-card__title {
+  color: #5f9c1a;
+}
+
+/* 주의 안내 */
+.notice-card {
+  margin-top: 12px;
+  padding: 14px;
+  border: 1px solid #f6e3b8;
+  border-radius: var(--radius-md);
+  background: #fdf8ec;
+}
+.notice-card__title {
+  font-size: 13.5px;
+  font-weight: 800;
+  color: #a2740a;
+  margin-bottom: 8px;
+}
+.notice-card p {
+  font-size: 12px;
+  color: var(--gray-700);
+  line-height: 1.6;
+}
+
+/* 좋아요 버튼 */
+.pcard__like {
+  padding: 4px 2px;
+  transition: color 0.15s var(--ease);
+}
+.pcard__like.is-liked {
+  color: var(--like);
+}
+.pcard__like.is-liked svg {
+  fill: var(--like);
+  stroke: var(--like);
+}
+.pcard__like:disabled {
+  opacity: 0.5;
+}
+
+
+/* ---------- 피드 카드 상세 ---------- */
+/* 신뢰도 별점 (근거 단계 점수를 별로 보여 줍니다) */
+.stars {
+  letter-spacing: 2px;
+  color: var(--gray-300);
+  font-size: 13px;
+}
+.stars b {
+  color: var(--green-500);
+  font-weight: 400;
+}
+.infotable td.is-wrap {
+  text-align: right;
+  font-weight: 700;
+  line-height: 1.55;
+}
+.detail__note {
+  margin-top: 14px;
+  font-size: 11.5px;
+  color: var(--gray-400);
+  line-height: 1.6;
+}

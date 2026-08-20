@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Dr.Judge · 근거 계층 라벨</title>
+    <link rel="icon" type="image/png" href="/assets/app-icon.png" />
+    <link rel="stylesheet" href="common.css" />
+    <link rel="stylesheet" href="tabs.css" />
+    <link rel="stylesheet" href="judge.css" />
+    <link rel="stylesheet" href="mypage.css" />
+    <link rel="stylesheet" href="result.css" />
+  </head>
+  <body>
+    <div class="app tabpage resultpage">
+      <header class="subhead">
+        <a href="./judge-result.html" class="subhead__back" id="backLink" aria-label="뒤로">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m15 5-7 7 7 7" />
+          </svg>
+        </a>
+        <h1 class="subhead__title">근거 계층 라벨</h1>
+      </header>
+
+      <div class="scroll-area">
+        <section class="result2">
+          <div class="pagehead">
+            <div>
+              <h2 class="pagehead__title">근거 계층 라벨</h2>
+              <p class="pagehead__sub">
+                판정 결과의 신뢰도를 5단계로 구분하여 표시합니다.
+              </p>
+            </div>
+          </div>
+
+          <!-- 지금 판정에 적용된 라벨 -->
+          <div id="levelNow"></div>
+
+          <!-- 5단계 전체 -->
+          <div id="levelList"></div>
+
+          <!-- 의료 상담 안내 -->
+          <div class="icard icard--tint" style="margin-top: 14px">
+            <div class="icard__head">
+              <span class="icard__ico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 20s-7.2-4.4-7.2-9.3A4.2 4.2 0 0 1 12 8.1a4.2 4.2 0 0 1 7.2 2.6C19.2 15.6 12 20 12 20Z" />
+                </svg>
+              </span>
+              <div>
+                <h3 class="icard__title" style="font-size: 14.5px">의료 상담 안내</h3>
+                <p class="icard__sub">
+                  이 판정은 의료 진단·처방을 대체하지 않습니다.<br />
+                  증상이 있다면 반드시 전문의와 상담하세요.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="pagecta">
+        <a href="./judge-result.html" class="btn btn--lg btn--primary" id="okBtn">확인</a>
+      </div>
+    </div>
+
+    <script src="common.js"></script>
+    <script src="data.js"></script>
+    <script>
+      (function () {
+        const esc = (s) =>
+          String(s).replace(
+            /[&<>"']/g,
+            (c) =>
+              ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c],
+          );
+
+        /* 판정 결과 화면에서 넘어온 값 — 그 판정으로 다시 돌아가기 위해 들고 다닙니다 */
+        const q = new URLSearchParams(location.search);
+        const judgmentId = q.get('id');
+        const nowKey = q.get('level');
+
+        if (judgmentId) {
+          const to = './judge-result.html?id=' + encodeURIComponent(judgmentId);
+          document.getElementById('backLink').href = to;
+          document.getElementById('okBtn').href = to;
+        }
+
+        /* 5칸 게이지 — 채워진 칸 수만 다릅니다 */
+        const segbar = (score) =>
+          '<span class="segbar">' +
+          [1, 2, 3, 4, 5]
+            .map(function (n) {
+              return '<span class="' + (n <= score ? 'is-on' : '') + '"></span>';
+            })
+            .join('') +
+          '</span>';
+
+        /* 지금 적용된 라벨 (없으면 이 카드는 안 보여 줍니다) */
+        const now = typeof levelOf === 'function' && nowKey ? levelOf(nowKey) : null;
+        document.getElementById('levelNow').innerHTML = now
+          ? '<div class="lvnow">' +
+            '<div class="lvnow__head">' +
+            '<span class="lvbadge lvbadge--lg" aria-hidden="true">' + esc(now.icon) + '</span>' +
+            '<div>' +
+            '<p class="lvnow__name">' + esc(now.name) + '</p>' +
+            '<p class="lvnow__sub">현재 판정에 적용된 근거 수준입니다.</p>' +
+            '</div></div>' +
+            '<div class="lvnow__div"></div>' +
+            '<p class="lvnow__trust">신뢰도 · ' + esc(now.trust) + '</p>' +
+            '<p class="lvnow__desc">' + esc(now.desc) + '</p>' +
+            '</div>'
+          : '';
+
+        document.getElementById('levelList').innerHTML = EVIDENCE_LEVELS.map(
+          function (l) {
+            return (
+              '<div class="lvcard">' +
+              '<div class="lvcard__head">' +
+              '<span class="lvbadge" aria-hidden="true">' + esc(l.icon) + '</span>' +
+              '<span class="lvcard__name">' + esc(l.name) + '</span>' +
+              '<span class="lvcard__act">' + esc(l.action) + '</span>' +
+              '</div>' +
+              segbar(l.score) +
+              '<p class="lvcard__desc">' + esc(l.desc) + '</p>' +
+              '<p class="lvcard__ex"><b>예</b><span>' + esc(l.example) + '</span></p>' +
+              '</div>'
+            );
+          },
+        ).join('');
+      })();
+    </script>
+  </body>
+</html>

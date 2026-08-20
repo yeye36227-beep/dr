@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Dr.Judge · 피드</title>
+    <link rel="icon" type="image/png" href="/assets/app-icon.png" />
+    <link rel="stylesheet" href="common.css" />
+    <link rel="stylesheet" href="tabs.css" />
+    <link rel="stylesheet" href="feed.css" />
+    <link rel="stylesheet" href="mypage.css" />
+  </head>
+  <body>
+    <div class="app tabpage feedpage">
+      <header class="feedhead">
+        <h1 class="feedhead__title">공유 피드</h1>
+        <p class="feedhead__desc">
+          판정이 완료된 건강·미용 정보만<br />함께 확인해보세요.
+        </p>
+        <div class="pills" id="sortPills">
+          <button type="button" class="pills__item is-active" data-sort="latest">
+            최신순
+          </button>
+          <button type="button" class="pills__item" data-sort="popular">
+            인기순
+          </button>
+        </div>
+      </header>
+
+      <div class="scroll-area">
+        <ul class="cardlist" id="cardList"></ul>
+        <div style="padding: 0 var(--page-x) 24px">
+          <button type="button" class="morebtn" id="feedMore" hidden>더 보기</button>
+        </div>
+      </div>
+
+      <nav class="tabbar" data-active="feed"></nav>
+    </div>
+
+    <script src="common.js"></script>
+    <script src="store.js"></script>
+    <script src="data.js"></script>
+    <script src="api.js"></script>
+    <script src="feed.js"></script>
+  </body>
+</html>

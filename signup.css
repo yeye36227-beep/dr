@@ -1,0 +1,374 @@
+/* ============================================
+   Dr.Judge — 회원가입 (단계형)
+   ============================================ */
+
+.signup {
+  background: var(--white);
+  justify-content: flex-start;
+}
+
+/* ---------- 뒤로 ---------- */
+.signup__nav {
+  flex: 0 0 auto;
+  padding: 10px var(--page-x) 0;
+}
+.signup__back {
+  width: 36px;
+  height: 36px;
+  margin-left: -8px;
+  display: grid;
+  place-items: center;
+  color: var(--gray-800);
+}
+.signup__back svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* ---------- 진행바 ---------- */
+.progress {
+  flex: 0 0 auto;
+  height: 8px;
+  margin: 10px var(--page-x) 0;
+  border-radius: 999px;
+  background: var(--gray-200);
+  overflow: hidden;
+}
+.progress__bar {
+  display: block;
+  height: 100%;
+  width: 50%;
+  border-radius: 999px;
+  background: var(--green-500);
+  transition: width 0.35s var(--ease);
+}
+
+/* ---------- 본문 ---------- */
+.signup__body {
+  min-height: 0;
+  padding: 36px var(--page-x) 0;
+  display: flex;
+  flex-direction: column;
+}
+.signup__title {
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.35;
+  letter-spacing: -0.6px;
+  margin-bottom: 40px;
+}
+.signup__form {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+}
+.signup__submit {
+  margin-top: auto;
+}
+/* 마지막 요소와 버튼이 붙지 않도록 최소 간격 */
+#step2 .signup__submit,
+#step1 .signup__submit {
+  margin-top: 28px;
+}
+.signup__submit {
+  background: var(--white);
+  border: 1.5px solid var(--green-500);
+  color: var(--green-600);
+}
+.signup__submit.is-ready {
+  background: var(--green-500);
+  color: var(--white);
+}
+.signup__submit:active {
+  background: var(--green-600);
+  border-color: var(--green-600);
+  color: var(--white);
+}
+.signup__submit:disabled {
+  opacity: 0.6;
+}
+
+/* 관심 분야를 안 고르고 완료를 누른 경우 */
+.picker.is-error .picker__btn {
+  border-color: var(--danger);
+}
+.picker.is-error::after {
+  content: '희망 분야를 다시 확인해주세요.';
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--danger);
+}
+
+.signup__switch {
+  margin: 14px 0 28px;
+}
+
+/* 회원가입에서는 약관 동의를 버튼 바로 위에 */
+.signup .agree {
+  margin: 24px 0 0;
+}
+
+/* ============================================
+   3단계 — 관심 분야
+   ============================================ */
+.picker__label {
+  font-size: 12.5px;
+  color: var(--gray-500);
+  margin-bottom: 8px;
+}
+.picker {
+  position: relative;
+}
+.picker__btn {
+  width: 100%;
+  height: 46px;
+  padding: 0 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius-md);
+  background: var(--white);
+  font-size: 14px;
+  color: var(--gray-400);
+  text-align: left;
+  transition: border-color 0.2s var(--ease);
+}
+.picker.is-selected .picker__btn {
+  color: var(--gray-900);
+  font-weight: 600;
+}
+.picker.is-open .picker__btn {
+  border-color: var(--green-500);
+}
+.picker__chevron {
+  width: 20px;
+  height: 20px;
+  color: var(--gray-500);
+  transition: transform 0.2s var(--ease);
+}
+.picker__chevron svg {
+  width: 100%;
+  height: 100%;
+}
+.picker.is-open .picker__chevron {
+  transform: rotate(180deg);
+}
+
+.picker__list {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  z-index: 20;
+  padding: 6px;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  background: var(--white);
+  box-shadow: var(--shadow-float);
+}
+.picker__opt {
+  width: 100%;
+  padding: 11px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: var(--radius-sm);
+  font-size: 13.5px;
+  color: var(--gray-800);
+  text-align: left;
+}
+.picker__opt:active {
+  background: var(--gray-100);
+}
+.picker__radio {
+  flex: 0 0 auto;
+  width: 16px;
+  height: 16px;
+  border: 1.5px solid var(--gray-300);
+  border-radius: 50%;
+  transition:
+    border-color 0.15s var(--ease),
+    box-shadow 0.15s var(--ease);
+}
+.picker__opt.is-selected .picker__radio {
+  border-color: var(--green-500);
+  border-width: 5px;
+}
+.picker__opt.is-selected {
+  color: var(--green-600);
+  font-weight: 700;
+}
+
+.signup__divider {
+  height: 1px;
+  margin: 26px calc(var(--page-x) * -1) 20px;
+  background: var(--gray-100);
+}
+.signup__q {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--gray-700);
+  margin-bottom: 12px;
+}
+
+/* ---------- 아코디언 ---------- */
+.accordion + .accordion {
+  margin-top: 10px;
+}
+.accordion__head {
+  width: 100%;
+  height: 46px;
+  padding: 0 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius-md);
+  background: var(--white);
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--gray-800);
+  text-align: left;
+  transition: border-color 0.2s var(--ease);
+}
+.accordion.is-open .accordion__head {
+  border-color: var(--green-500);
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  color: var(--green-600);
+}
+.accordion__chevron {
+  width: 18px;
+  height: 18px;
+  color: var(--gray-500);
+  transition: transform 0.2s var(--ease);
+}
+.accordion__chevron svg {
+  width: 100%;
+  height: 100%;
+}
+.accordion.is-open .accordion__chevron {
+  transform: rotate(180deg);
+  color: var(--green-600);
+}
+.accordion__panel {
+  padding: 12px 14px 14px;
+  border: 1px solid var(--green-500);
+  border-top: 0;
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+  background: var(--green-050);
+}
+.accordion__label {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--gray-800);
+  margin-bottom: 8px;
+}
+.accordion__list li {
+  position: relative;
+  padding-left: 10px;
+  font-size: 11.5px;
+  color: var(--gray-700);
+  line-height: 1.65;
+}
+.accordion__list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: var(--green-600);
+}
+
+/* 3단계 완료 버튼은 목록 아래에 여백을 두고 */
+#step4 .signup__submit {
+  margin-top: 28px;
+}
+
+/* ============================================
+   3단계 — 연령대
+   ============================================ */
+.optlist,
+.agelist {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.optlist__opt,
+.agelist__opt {
+  height: 46px;
+  padding: 0 14px;
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius-md);
+  background: var(--white);
+  font-size: 13.5px;
+  color: var(--gray-500);
+  text-align: left;
+  transition:
+    border-color 0.18s var(--ease),
+    color 0.18s var(--ease),
+    background 0.18s var(--ease);
+}
+.optlist__opt:active,
+.agelist__opt:active {
+  background: var(--gray-100);
+}
+.optlist__opt.is-selected,
+.agelist__opt.is-selected {
+  border-color: var(--green-500);
+  color: var(--green-600);
+  font-weight: 700;
+  background: var(--white);
+}
+/* 안 고르고 계속하기를 누른 경우 */
+.optlist.is-error .optlist__opt,
+.agelist.is-error .agelist__opt {
+  border-color: var(--danger);
+}
+
+.picker__hint {
+  margin-left: 6px;
+  font-size: 11.5px;
+  color: var(--gray-400);
+  font-weight: 400;
+}
+/* 다중 선택 — 고른 항목에 체크 표시 */
+.optlist__opt.is-selected::after {
+  content: '✓';
+  margin-left: auto;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--green-600);
+}
+.optlist__opt {
+  justify-content: flex-start;
+}
+
+
+/* ---------- 또는 구분선 ---------- */
+.signup__or {
+  position: relative;
+  margin: 18px 0 12px;
+  text-align: center;
+}
+.signup__or::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background: var(--gray-200);
+}
+.signup__or span {
+  position: relative;
+  padding: 0 12px;
+  background: var(--white);
+  font-size: 11.5px;
+  color: var(--gray-400);
+}

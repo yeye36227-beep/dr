@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Dr.Judge · 피드 카드 상세 보기</title>
+    <link rel="icon" type="image/png" href="/assets/app-icon.png" />
+    <link rel="stylesheet" href="common.css" />
+    <link rel="stylesheet" href="tabs.css" />
+    <link rel="stylesheet" href="judge.css" />
+    <link rel="stylesheet" href="result.css" />
+    <link rel="stylesheet" href="feed.css" />
+  </head>
+  <body>
+    <div class="app tabpage feedpage">
+      <header class="subhead">
+        <a href="./feed.html" class="subhead__back" aria-label="뒤로">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m15 5-7 7 7 7" />
+          </svg>
+        </a>
+        <h1 class="subhead__title">피드 카드 상세 보기</h1>
+      </header>
+
+      <div class="scroll-area">
+        <div class="detail" id="detail"></div>
+      </div>
+
+      <nav class="tabbar" data-active="feed"></nav>
+    </div>
+
+    <script src="common.js"></script>
+    <script src="store.js"></script>
+    <script src="data.js"></script>
+    <script src="feed-detail.js"></script>
+  </body>
+</html>

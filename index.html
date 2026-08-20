@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Dr.Judge</title>
+    <link rel="icon" type="image/png" href="/assets/app-icon.png" />
+    <!--
+      웹 주소의 첫 화면은 index.html 이어야 하므로,
+      여기서는 곧바로 시작 화면(start.html)으로 넘겨줍니다.
+      이미 로그인한 상태면 홈으로 갑니다.
+    -->
+    <script>
+      (function () {
+        var next = './start.html';
+        try {
+          var db = JSON.parse(localStorage.getItem('drjudge') || 'null');
+          if (db && db.session) next = './home.html';
+        } catch (e) {
+          var n = String(window.name || '');
+          if (n.indexOf('#drjudge#') === 0) {
+            try {
+              var d = JSON.parse(n.slice(9));
+              if (d && d.session) next = './home.html';
+            } catch (e2) {}
+          }
+        }
+        location.replace(next);
+      })();
+    </script>
+    <noscript>
+      <meta http-equiv="refresh" content="0; url=./start.html" />
+    </noscript>
+  </head>
+  <body></body>
+</html>

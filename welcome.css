@@ -1,0 +1,77 @@
+/* ============================================
+   Dr.Judge — 가입 완료 (반가워요)
+   ============================================ */
+
+.welcome {
+  background: var(--white);
+  justify-content: center;
+  padding: 0 var(--page-x);
+}
+
+.welcome__body {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-bottom: 60px;
+}
+.welcome__title {
+  font-size: 26px;
+  font-weight: 900;
+  letter-spacing: -0.7px;
+  animation: welcome-pop 0.5s var(--ease) both;
+}
+.welcome__desc {
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--gray-500);
+  line-height: 1.6;
+  animation: welcome-pop 0.5s var(--ease) 0.1s both;
+}
+
+@keyframes welcome-pop {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.welcome__cta {
+  flex: 0 0 auto;
+  padding-bottom: 40px;
+}
+
+/* ---------- 콘페티 ---------- */
+.confetti {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.confetti i {
+  position: absolute;
+  display: block;
+  border-radius: 1px;
+  opacity: 0;
+  animation: confetti-in 0.6s var(--ease) forwards;
+}
+.confetti i.dot {
+  border-radius: 50%;
+}
+
+@keyframes confetti-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.4) rotate(0deg);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

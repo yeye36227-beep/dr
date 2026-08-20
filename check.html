@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dr.Judge · 이미지 점검</title>
+    <link rel="icon" type="image/png" href="/assets/app-icon.png" />
+    <style>
+      body { font-family: -apple-system, 'Apple SD Gothic Neo', sans-serif; margin: 0; padding: 24px; background: #f3f5f7; color: #16181a; }
+      h1 { font-size: 20px; margin: 0 0 6px; }
+      p.sub { margin: 0 0 20px; font-size: 13px; color: #868c94; }
+      .row { display: flex; align-items: center; gap: 14px; padding: 14px; margin-bottom: 10px; background: #fff; border: 1px solid #e8ebef; border-radius: 12px; }
+      .thumb { width: 56px; height: 56px; flex: 0 0 auto; object-fit: contain; background: #f3f5f7; border-radius: 8px; }
+      .info { min-width: 0; flex: 1 1 auto; }
+      .name { font-size: 14px; font-weight: 700; }
+      .url { font-size: 11px; color: #868c94; word-break: break-all; margin-top: 3px; }
+      .state { flex: 0 0 auto; font-size: 13px; font-weight: 800; }
+      .ok { color: #5e9b22; }
+      .no { color: #d33; }
+      .wait { color: #a8aeb6; }
+      .box { margin-top: 20px; padding: 16px; background: #fff; border: 1px solid #e8ebef; border-radius: 12px; font-size: 13px; line-height: 1.7; }
+      code { background: #f3f5f7; padding: 1px 5px; border-radius: 4px; font-size: 12px; }
+    </style>
+  </head>
+  <body>
+    <h1>이미지 점검</h1>
+    <p class="sub">배포된 사이트에서 이미지 파일이 실제로 열리는지 확인합니다.</p>
+
+    <div id="list"></div>
+
+    <div class="box" id="summary"></div>
+
+    <script>
+      const FILES = [
+        'assets/character.png',
+        'assets/character-head.png',
+        'assets/wordmark.png',
+        'assets/logo.png',
+        'assets/app-icon.png',
+      ];
+
+      const list = document.getElementById('list');
+      const summary = document.getElementById('summary');
+      let done = 0;
+      let bad = 0;
+
+      FILES.forEach((f) => {
+        const row = document.createElement('div');
+        row.className = 'row';
+        row.innerHTML =
+          '<img class="thumb" alt="" />' +
+          '<div class="info"><div class="name">' + f + '</div>' +
+          '<div class="url"></div></div>' +
+          '<div class="state wait">확인 중…</div>';
+        list.appendChild(row);
+
+        const img = row.querySelector('.thumb');
+        const state = row.querySelector('.state');
+        const url = new URL(f, location.href).href;
+        row.querySelector('.url').textContent = url;
+
+        img.addEventListener('load', () => {
+          state.textContent = '정상 ' + img.naturalWidth + '×' + img.naturalHeight;
+          state.className = 'state ok';
+          finish();
+        });
+        img.addEventListener('error', () => {
+          state.textContent = '없음 (404)';
+          state.className = 'state no';
+          bad++;
+          finish();
+        });
+        img.src = f;
+      });
+
+      function finish() {
+        if (++done < FILES.length) return;
+        summary.innerHTML = bad === 0
+          ? '<b>이미지가 모두 정상입니다.</b><br />화면에서 여전히 깨져 보인다면 브라우저 캐시 문제일 수 있어요. 새로고침을 강하게(⌘⇧R) 해보세요.'
+          : '<b>' + bad + '개 파일을 서버에서 찾지 못했습니다.</b><br />' +
+            '배포에 <code>assets</code> 폴더가 빠진 것입니다. Netlify에 올릴 때 파일을 하나씩 고르지 말고 ' +
+            '<code>dr.judge</code> <b>폴더 자체를</b> 통째로 드래그해 주세요.<br />' +
+            'Git으로 배포 중이라면 <code>git add dr.judge/assets</code> 후 다시 push 하시면 됩니다.';
+      }
+    </script>
+  </body>
+</html>

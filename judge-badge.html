@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Dr.Judge · 상업적 가능성 배지</title>
+    <link rel="icon" type="image/png" href="/assets/app-icon.png" />
+    <link rel="stylesheet" href="common.css" />
+    <link rel="stylesheet" href="tabs.css" />
+    <link rel="stylesheet" href="judge.css" />
+    <link rel="stylesheet" href="mypage.css" />
+    <link rel="stylesheet" href="result.css" />
+  </head>
+  <body>
+    <div class="app tabpage resultpage">
+      <header class="subhead">
+        <a href="./judge-result.html" class="subhead__back" id="backLink" aria-label="뒤로">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m15 5-7 7 7 7" />
+          </svg>
+        </a>
+        <h1 class="subhead__title">상업적 가능성 배지 확인</h1>
+      </header>
+
+      <div class="scroll-area">
+        <section class="result2">
+          <div class="pagehead">
+            <div>
+              <h2 class="pagehead__title">상업적 가능성</h2>
+              <p class="pagehead__sub">상업적 이해가 있는 주장</p>
+            </div>
+            <span class="pagehead__ico" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 4v16M7 20h10M5 8h14M5 8l-2.5 5.5h5L5 8Zm14 0-2.5 5.5h5L19 8Z" />
+              </svg>
+            </span>
+          </div>
+
+          <!-- 상업적 의도 -->
+          <div class="icard icard--tint">
+            <div class="icard__head">
+              <span class="icard__ico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                  <rect x="4" y="3.5" width="16" height="17" rx="2.5" />
+                  <path d="M8 8.5h8M8 12h8M8 15.5h5" />
+                </svg>
+              </span>
+              <h3 class="icard__title">상업적 의도</h3>
+            </div>
+            <div class="icard__rule"></div>
+            <p class="icard__text">
+              제품을 판매하거나 광고하는 회사·개인이 해당 제품의 효과를 주장하는
+              경우입니다.
+            </p>
+          </div>
+
+          <!-- 판정 근거 -->
+          <div class="icard">
+            <div class="icard__head">
+              <span class="icard__ico" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round">
+                  <circle cx="11" cy="11" r="6.5" />
+                  <path d="m16 16 4 4" />
+                </svg>
+              </span>
+              <h3 class="icard__title">판정 근거</h3>
+            </div>
+            <div class="icard__rule"></div>
+            <p class="icard__text">
+              판정 엔진이 입력 출처를 분석해 상업적 목적 여부를 검출합니다.
+            </p>
+
+            <div class="icard__foot">
+              <span class="pill-label">신뢰도 평가</span>
+              <span class="segbar" id="confBar">
+                <span class="is-on"></span>
+                <span class="is-on"></span>
+                <span class="is-on"></span>
+                <span class="is-on"></span>
+                <span></span>
+              </span>
+              <b id="confLabel">높음</b>
+            </div>
+          </div>
+
+          <!-- 주의 안내 -->
+          <div class="icard icard--warn">
+            <div class="icard__head">
+              <span class="icard__ico" aria-hidden="true">!</span>
+              <h3 class="icard__title">주의 안내</h3>
+            </div>
+            <div class="icard__rule"></div>
+            <ul class="checklist">
+              <li>
+                상업적 의도가 있다고 해서 내용이 거짓이라는 뜻은 아닙니다. 다만
+                판정에 영향을 줄 수 있는 요소입니다.
+              </li>
+              <li>
+                같은 주장도 중립 출처의 근거와 판매자의 주장에 따라 신뢰도 평가가
+                달라질 수 있습니다.
+              </li>
+            </ul>
+          </div>
+        </section>
+      </div>
+
+      <div class="pagecta">
+        <a href="./judge-result.html" class="btn btn--lg btn--primary" id="okBtn">돌아가기</a>
+      </div>
+    </div>
+
+    <script src="common.js"></script>
+    <script src="data.js"></script>
+    <script>
+      (function () {
+        const judgmentId = new URLSearchParams(location.search).get('id');
+        if (!judgmentId) return;
+        const to = './judge-result.html?id=' + encodeURIComponent(judgmentId);
+        document.getElementById('backLink').href = to;
+        document.getElementById('okBtn').href = to;
+      })();
+    </script>
+  </body>
+</html>

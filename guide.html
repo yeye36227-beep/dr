@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Dr.Judge · 닥터저지 사용법</title>
+    <link rel="icon" type="image/png" href="/assets/app-icon.png" />
+    <link rel="stylesheet" href="common.css" />
+    <link rel="stylesheet" href="tabs.css" />
+    <link rel="stylesheet" href="judge.css" />
+    <link rel="stylesheet" href="guide.css" />
+  </head>
+  <body>
+    <div class="app tabpage guidepage">
+      <header class="subhead">
+        <a href="./home.html" class="subhead__back" aria-label="뒤로">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m15 5-7 7 7 7" />
+          </svg>
+        </a>
+        <h1 class="subhead__title">닥터저지 사용법</h1>
+      </header>
+
+      <div class="scroll-area">
+        <section class="ghero">
+          <span class="ghero__badge">쉽고 정확하게!</span>
+          <h2 class="ghero__title"><b>닥터저지</b>,<br />이렇게 사용해보세요!</h2>
+          <p class="ghero__sub">
+            4단계로 건강·미용 정보를 빠르고 정확하게 판별할 수 있어요.
+          </p>
+          <img
+            class="ghero__char"
+            src="./assets/character-head.png"
+            alt=""
+            data-fallback="character"
+          />
+        </section>
+
+        <section class="gsect">
+          <h2 class="gsect__title">이렇게 사용해요</h2>
+          <div id="stepList"></div>
+        </section>
+
+        <section class="gsect">
+          <a href="./judge.html" class="btn btn--block btn--lg btn--primary">
+            지금 판정 받아보기
+          </a>
+        </section>
+      </div>
+
+      <nav class="tabbar" data-active="home"></nav>
+    </div>
+
+    <script src="common.js"></script>
+    <script src="data.js"></script>
+    <script>
+      (function () {
+        const esc = (s) =>
+          String(s).replace(
+            /[&<>"']/g,
+            (c) =>
+              ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c],
+          );
+
+        document.getElementById('stepList').innerHTML = GUIDE_STEPS.map(
+          (s, i) =>
+            '<div class="gstep">' +
+            '<span class="gstep__no">' + (i + 1) + '</span>' +
+            '<div class="gstep__body">' +
+            '<h3 class="gstep__title">' + esc(s.title) + '</h3>' +
+            '<p class="gstep__desc">' + esc(s.desc) + '</p>' +
+            (s.tags
+              ? '<div class="gstep__tags">' +
+                s.tags.map((t) => '<span>' + esc(t) + '</span>').join('') +
+                '</div>'
+              : '') +
+            '</div></div>',
+        ).join('');
+      })();
+    </script>
+  </body>
+</html>

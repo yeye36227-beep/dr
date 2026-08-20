@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Dr.Judge · 공지사항</title>
+    <link rel="icon" type="image/png" href="/assets/app-icon.png" />
+    <link rel="stylesheet" href="common.css" />
+    <link rel="stylesheet" href="tabs.css" />
+    <link rel="stylesheet" href="judge.css" />
+    <link rel="stylesheet" href="guide.css" />
+  </head>
+  <body>
+    <div class="app tabpage guidepage">
+      <header class="subhead">
+        <a href="./home.html" class="subhead__back" aria-label="뒤로">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m15 5-7 7 7 7" />
+          </svg>
+        </a>
+        <h1 class="subhead__title">공지사항</h1>
+      </header>
+
+      <div class="scroll-area">
+        <section class="gsect" style="margin-top: 18px">
+          <h2 class="gsect__title" style="margin-bottom: 4px">공지사항</h2>
+          <p class="gstep__desc">닥터저지의 새로운 소식과 중요한 안내를 확인해보세요.</p>
+        </section>
+
+        <div class="gtabs" id="noticeTabs"></div>
+        <ul class="notice" id="noticeList"></ul>
+      </div>
+
+      <nav class="tabbar" data-active="home"></nav>
+    </div>
+
+    <script src="common.js"></script>
+    <script src="data.js"></script>
+    <script>
+      (function () {
+        const esc = (s) =>
+          String(s).replace(
+            /[&<>"']/g,
+            (c) =>
+              ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c],
+          );
+
+        const tabsEl = document.getElementById('noticeTabs');
+        const listEl = document.getElementById('noticeList');
+
+        /* 배지 색 — 중요/이벤트만 다르게 보여 줍니다 */
+        const kindClass = (kind) =>
+          kind === '중요' ? ' is-important' : kind === '이벤트' ? ' is-event' : '';
+
+        const TABS = ['전체', ...new Set(NOTICES.map((n) => n.kind))];
+        let current = '전체';
+
+        function renderTabs() {
+          tabsEl.innerHTML = TABS.map(
+            (t) =>
+              '<button type="button" class="gtabs__item' +
+              (t === current ? ' is-active' : '') +
+              '" data-tab="' + esc(t) + '">' + esc(t) + '</button>',
+          ).join('');
+        }
+
+        function renderList() {
+          const shown =
+            current === '전체' ? NOTICES : NOTICES.filter((n) => n.kind === current);
+
+          listEl.innerHTML = shown
+            .map(
+              (n, i) =>
+                '<li class="notice__item" data-i="' + i + '">' +
+                '<div class="notice__body">' +
+                '<span class="notice__kind' + kindClass(n.kind) + '">' + esc(n.kind) + '</span>' +
+                '<h3 class="notice__title">' + esc(n.title) + '</h3>' +
+                '<p class="notice__date">' + esc(n.date) + '</p>' +
+                '</div>' +
+                '<span class="notice__arrow" aria-hidden="true">›</span>' +
+                '</li>' +
+                '<li class="notice__detail" data-detail="' + i + '" hidden>' +
+                esc(n.body) +
+                '</li>',
+            )
+            .join('');
+
+          /* 눌러서 펼치기 — 상세 화면을 따로 두지 않고 그 자리에서 엽니다 */
+          listEl.querySelectorAll('.notice__item').forEach((el) => {
+            el.addEventListener('click', () => {
+              const detail = listEl.querySelector(
+                '[data-detail="' + el.dataset.i + '"]',
+              );
+              const open = !detail.hidden;
+              detail.hidden = open;
+              el.classList.toggle('is-open', !open);
+            });
+          });
+        }
+
+        tabsEl.addEventListener('click', (e) => {
+          const btn = e.target.closest('.gtabs__item');
+          if (!btn) return;
+          current = btn.dataset.tab;
+          renderTabs();
+          renderList();
+        });
+
+        renderTabs();
+        renderList();
+      })();
+    </script>
+  </body>
+</html>

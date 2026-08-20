@@ -1,0 +1,470 @@
+/* ============================================
+   Dr.Judge — 메인(홈) 화면
+   ============================================ */
+
+.home {
+  background: var(--white);
+}
+
+/* ---------- 1. 검색 바 ---------- */
+.searchbar {
+  margin: 4px var(--page-x) 12px;
+  height: 44px;
+  padding: 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--gray-100);
+  border: 1.5px solid transparent;
+  border-radius: 999px;
+  transition:
+    border-color 0.2s var(--ease),
+    background 0.2s var(--ease);
+}
+.searchbar.is-focused {
+  background: var(--white);
+  border-color: var(--green-500);
+  box-shadow: var(--shadow-card);
+}
+.searchbar__icon {
+  width: 22px;
+  height: 22px;
+  color: var(--gray-500);
+  flex: 0 0 auto;
+}
+.searchbar.is-focused .searchbar__icon {
+  color: var(--green-600);
+}
+.searchbar__icon svg {
+  width: 100%;
+  height: 100%;
+}
+.searchbar__input {
+  flex: 1 1 auto;
+  height: 100%;
+  font-size: 14px;
+}
+.searchbar__input::placeholder {
+  color: var(--gray-400);
+}
+.searchbar__input::-webkit-search-cancel-button {
+  display: none;
+}
+.searchbar__clear {
+  width: 20px;
+  height: 20px;
+  color: var(--gray-400);
+  flex: 0 0 auto;
+}
+.searchbar__clear svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* 검색어 하이라이트 (해당 단어에 그림자 표시) */
+.hl {
+  color: var(--gray-900);
+  font-weight: 800;
+  text-shadow:
+    0 0 8px rgba(157, 226, 79, 0.95),
+    0 1px 2px rgba(0, 0, 0, 0.18);
+  background: linear-gradient(transparent 60%, var(--green-100) 60%);
+  border-radius: 2px;
+}
+/* 검색 결과로 맨 위에 올라온 카드 */
+.feedcard.is-hit {
+  box-shadow: 0 6px 18px rgba(110, 175, 46, 0.28);
+  border-color: var(--green-400);
+}
+
+/* ---------- 4. 데일리 브리핑 배너 ---------- */
+.briefing {
+  margin-bottom: 8px;
+}
+.briefing__track {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  gap: 10px;
+  padding: 0 var(--page-x);
+  scrollbar-width: none;
+}
+.briefing__track::-webkit-scrollbar {
+  display: none;
+}
+
+.briefing__slide {
+  position: relative;
+  flex: 0 0 100%;
+  scroll-snap-align: center;
+  min-height: 214px;
+  padding: 18px 18px 20px;
+  border-radius: var(--radius-lg);
+  background: linear-gradient(
+    150deg,
+    var(--green-400) 0%,
+    var(--green-500) 55%,
+    #86d33f 100%
+  );
+  color: var(--white);
+  overflow: hidden;
+  text-align: left;
+  display: block;
+}
+.briefing__badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.92);
+  color: #5e9b22;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.4px;
+}
+.briefing__title {
+  margin-top: 12px;
+  font-size: 22px;
+  font-weight: 900;
+  line-height: 1.3;
+  letter-spacing: -0.6px;
+  max-width: 210px;
+}
+.briefing__desc {
+  margin-top: 8px;
+  font-size: 12px;
+  font-weight: 500;
+  opacity: 0.95;
+  max-width: 210px;
+}
+.briefing__cta {
+  margin-top: 16px;
+  height: 40px;
+  padding: 0 16px;
+  border-radius: 999px;
+  background: var(--white);
+  color: var(--gray-900);
+  font-size: 13px;
+  font-weight: 800;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: var(--shadow-card);
+}
+.briefing__char {
+  position: absolute;
+  right: -6px;
+  bottom: -8px;
+  width: 148px;
+  height: auto;
+  pointer-events: none;
+  filter: drop-shadow(0 6px 12px rgba(22, 24, 26, 0.16));
+}
+.briefing__slide .img-placeholder.character {
+  position: absolute;
+  right: 12px;
+  bottom: 14px;
+  width: 132px;
+  height: 122px;
+}
+
+.briefing__dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 12px;
+}
+.briefing__dots span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gray-300);
+  transition:
+    width 0.2s var(--ease),
+    background 0.2s var(--ease);
+}
+.briefing__dots span.is-active {
+  width: 16px;
+  border-radius: 3px;
+  background: var(--green-500);
+}
+
+/* ---------- 공유 피드 ---------- */
+.feed {
+  padding: 12px var(--page-x) 20px;
+}
+.feed__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.feed__title {
+  font-size: 19px;
+  font-weight: 800;
+  letter-spacing: -0.4px;
+}
+
+/* 2. 카테고리 선택 바 */
+.catselect {
+  position: relative;
+}
+.catselect__btn {
+  height: 32px;
+  padding: 0 10px 0 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid var(--gray-300);
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--gray-700);
+  background: var(--white);
+  transition:
+    border-color 0.2s var(--ease),
+    color 0.2s var(--ease),
+    background 0.2s var(--ease);
+}
+.catselect__btn svg {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.2s var(--ease);
+}
+.catselect.is-open .catselect__btn {
+  border-color: var(--green-500);
+  color: var(--green-600);
+}
+.catselect.is-open .catselect__btn svg {
+  transform: rotate(180deg);
+}
+.catselect.is-filtered .catselect__btn {
+  background: var(--green-100);
+  border-color: var(--green-500);
+  color: #5e9b22;
+}
+
+.catselect__list {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: 20;
+  min-width: 148px;
+  padding: 6px;
+  background: var(--white);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-float);
+}
+.catselect__list li + li {
+  margin-top: 2px;
+}
+.catselect__opt {
+  width: 100%;
+  padding: 9px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  color: var(--gray-700);
+  text-align: left;
+}
+.catselect__opt:hover {
+  background: var(--gray-100);
+}
+/* 선택된 카테고리: 연두색 + 체크 아이콘으로 구분 */
+.catselect__opt.is-selected {
+  background: var(--green-100);
+  color: #5e9b22;
+  font-weight: 800;
+}
+.catselect__opt .check {
+  display: none;
+  width: 15px;
+  height: 15px;
+}
+.catselect__opt.is-selected .check {
+  display: block;
+}
+
+/* 정렬 탭 */
+.sorttabs {
+  display: flex;
+  gap: 18px;
+  margin: 14px 0 10px;
+  border-bottom: 1px solid var(--gray-200);
+}
+.sorttabs__item {
+  position: relative;
+  padding: 6px 2px 10px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--gray-400);
+  transition: color 0.2s var(--ease);
+}
+.sorttabs__item.is-active {
+  color: var(--gray-900);
+}
+.sorttabs__item.is-active::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--gray-900);
+}
+
+/* 3. 피드 카드 */
+.feedlist {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.feedcard {
+  padding: 14px;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-lg);
+  background: var(--white);
+  box-shadow: var(--shadow-card);
+  cursor: pointer;
+  transition:
+    transform 0.15s var(--ease),
+    box-shadow 0.15s var(--ease),
+    border-color 0.15s var(--ease);
+}
+.feedcard:active {
+  transform: scale(0.985);
+}
+.feedcard__title {
+  margin: 9px 0 6px;
+  font-size: 15.5px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  line-height: 1.35;
+}
+.feedcard__desc {
+  font-size: 12.5px;
+  color: var(--gray-500);
+  line-height: 1.5;
+  display: -webkit-box;
+
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.feedcard__meta {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px solid var(--gray-100);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  color: var(--gray-500);
+}
+.feedcard__author {
+  font-weight: 600;
+  color: var(--gray-700);
+}
+.feedcard__divider {
+  width: 1px;
+  height: 10px;
+  background: var(--gray-300);
+}
+.feedcard__actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.feedcard__like,
+.feedcard__share {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--gray-500);
+  font-size: 11.5px;
+  font-weight: 600;
+}
+.feedcard__like svg,
+.feedcard__share svg {
+  width: 16px;
+  height: 16px;
+}
+.feedcard__like.is-liked {
+  color: var(--like);
+}
+.feedcard__like.is-liked svg {
+  fill: var(--like);
+  stroke: var(--like);
+}
+
+.feedlist__empty {
+  padding: 40px 0;
+  text-align: center;
+  color: var(--gray-400);
+  font-size: 13px;
+}
+
+/* ---------- 판정 유도 배너 ---------- */
+.judgecta {
+  margin-top: 16px;
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-radius: var(--radius-lg);
+  background: var(--green-050);
+  border: 1px solid var(--green-100);
+}
+.judgecta:active {
+  background: var(--green-100);
+}
+.judgecta__icon {
+  flex: 0 0 auto;
+  width: 34px;
+  height: 34px;
+  color: var(--green-500);
+}
+.judgecta__icon svg {
+  width: 100%;
+  height: 100%;
+}
+.judgecta__text {
+  min-width: 0;
+  font-size: 11.5px;
+  color: var(--gray-500);
+  line-height: 1.45;
+}
+.judgecta__text b {
+  display: block;
+  margin-bottom: 2px;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--gray-900);
+  letter-spacing: -0.3px;
+}
+.judgecta__btn {
+  flex: 0 0 auto;
+  margin-left: auto;
+  height: 34px;
+  padding: 0 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: 1.5px solid var(--green-500);
+  border-radius: 999px;
+  background: var(--white);
+  color: #5e9b22;
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.feed__more {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--gray-500);
+}
