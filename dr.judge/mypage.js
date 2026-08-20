@@ -265,6 +265,15 @@
       btn.addEventListener('click', () => openRevoke(btn.dataset.del));
     });
 
+    /* '공유 카드 보기' — 상세 API 가 없어서, 넘어가기 전에 이 카드의 내용을
+       담아 둡니다. 담지 않으면 상세 화면이 예시 카드를 보여 줍니다. */
+    myCards.querySelectorAll('.mycard__view').forEach((a) => {
+      a.addEventListener('click', () => {
+        const id = a.closest('.mycard').dataset.id;
+        FeedHandoff.set(cardItems.find((c) => String(c.id) === id));
+      });
+    });
+
     cardsMore.hidden = cardPage >= cardTotal;
   }
 

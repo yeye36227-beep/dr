@@ -24,7 +24,7 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 PORT = int(os.environ.get("PORT", 3000))
 API = os.environ.get("API", "http://127.0.0.1:8080").rstrip("/")
-ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "project")
+ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "dr.judge")
 
 TYPES = {
     ".html": "text/html; charset=utf-8",
@@ -170,8 +170,8 @@ class Handler(BaseHTTPRequestHandler):
 
 if __name__ == "__main__":
     if not os.path.isdir(ROOT):
-        print(f"\n  project 폴더를 못 찾았습니다: {ROOT}")
-        print("  이 파일을 project 폴더와 같은 위치에 두고 실행해 주세요.\n")
+        print(f"\n  dr.judge 폴더를 못 찾았습니다: {ROOT}")
+        print("  이 파일을 dr.judge 폴더와 같은 위치에 두고 실행해 주세요.\n")
         sys.exit(1)
 
     print("")

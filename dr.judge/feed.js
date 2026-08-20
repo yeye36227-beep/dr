@@ -71,8 +71,12 @@
       el.addEventListener('click', (e) => {
         if (e.target.closest('[data-like]')) return; // 하트는 이동하지 않습니다
         // 게시물 상세 API 가 아직 없어서, 목록에서 받은 내용을 넘겨줍니다
-        const item = items.find((i) => i.id === el.dataset.id);
-        if (item) Store.saveResult({ ...item, id: 'post:' + item.id });
+        /* 서버 id 는 숫자, dataset 값은 문자열이라 === 로는 못 찾습니다 */
+        const item = items.find((i) => String(i.id) === el.dataset.id);
+        if (item) {
+          FeedHandoff.set(item);
+          Store.saveResult({ ...item, id: 'post:' + item.id });
+        }
         location.href = `./feed-detail.html?id=${encodeURIComponent(el.dataset.id)}`;
       });
     });
@@ -94,7 +98,7 @@
         }
 
         // 서버가 알려준 상태로 맞춥니다
-        const item = items.find((i) => i.id === btn.dataset.like);
+        const item = items.find((i) => String(i.id) === btn.dataset.like);
         if (item) {
           item.liked = res.data.liked;
           item.likes = res.data.likeCount;

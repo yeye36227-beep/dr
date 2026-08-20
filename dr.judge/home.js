@@ -16,7 +16,7 @@ let slidesFromServer = false; // 기본 배너의 id 는 서버에 없는 값이
 function renderBriefings() {
   track.innerHTML = slides.map(
     (b) => `
-    <button class="briefing__slide" data-id="${b.id}" type="button">
+    <button class="briefing__slide" data-id="${b.id}" data-href="${b.href || './briefing.html'}" type="button">
       <span class="briefing__badge">DAILY BRIEFING</span>
       <h3 class="briefing__title">${b.title}</h3>
       <p class="briefing__desc">${b.desc}</p>
@@ -32,16 +32,19 @@ function renderBriefings() {
 
   initImageFallback(track);
 
-  // 터치 시 데일리 브리핑 상세로 이동
+  // 터치 시 그 장에 정해진 화면으로 이동합니다
   track.querySelectorAll('.briefing__slide').forEach((el) => {
-    el.addEventListener('click', () => goBriefingDetail(el.dataset.id));
+    el.addEventListener('click', () => goSlide(el.dataset.id, el.dataset.href));
   });
 }
 
-function goBriefingDetail(briefingId) {
-  // 오픈율 지표(4.3) — 서버에서 받은 카드일 때만, 기다리지 않고 보냅니다
-  if (slidesFromServer && briefingId) API.markBriefingOpened(briefingId);
-  location.href = './briefing.html';
+function goSlide(briefingId, href) {
+  /* 오픈율 지표(4.3) — 서버에서 받은 브리핑 카드일 때만 보냅니다.
+     사용법·포인트·공지 카드는 서버에 없는 id 라 보내지 않습니다. */
+  const isServerBriefing = slidesFromServer && briefingId && !/^b-/.test(briefingId);
+  if (isServerBriefing) API.markBriefingOpened(briefingId);
+
+  location.href = href || './briefing.html';
 }
 
 function syncDots() {
@@ -97,14 +100,16 @@ function highlight(text) {
 function visibleFeeds() {
   if (!keyword) return feedItems;
   const k = keyword.toLowerCase();
-  const hit = (f) => (f.summary || '').toLowerCase().includes(k);
+  const hit = (f) =>
+    `${f.title || ''} ${f.summary || ''}`.toLowerCase().includes(k);
   return [...feedItems.filter(hit), ...feedItems.filter((f) => !hit(f))];
 }
 
 function renderFeed() {
   const list = visibleFeeds();
   const k = keyword.toLowerCase();
-  const isHit = (f) => keyword && (f.summary || '').toLowerCase().includes(k);
+  const isHit = (f) =>
+    keyword && `${f.title || ''} ${f.summary || ''}`.toLowerCase().includes(k);
 
   homeFeed.innerHTML = list.length
     ? list
@@ -112,10 +117,10 @@ function renderFeed() {
           (c) => `
     <li class="pcard ${isHit(c) ? 'is-hit' : ''}" data-id="${esc(c.id)}">
       <div class="pcard__top">
-        <span class="pcard__cat">${esc(c.levelLabel)}</span>
+        <span class="pcard__cat">${esc(c.category || c.levelLabel || '')}</span>
         <span class="badge-done">판정 완료</span>
       </div>
-      <h3 class="pcard__title">“${highlight(c.summary)}”</h3>
+      <h3 class="pcard__title">“${highlight(c.title || c.summary || '')}”</h3>
       <div class="pcard__foot">
         <span class="pcard__author">@${esc(c.author)}</span>
         <span class="pcard__like">
@@ -132,8 +137,12 @@ function renderFeed() {
 
   homeFeed.querySelectorAll('.pcard').forEach((el) => {
     el.addEventListener('click', () => {
-      const item = feedItems.find((i) => i.id === el.dataset.id);
-      if (item) Store.saveResult({ ...item, id: 'post:' + item.id });
+      /* 서버 id 는 숫자, dataset 값은 문자열이라 === 로는 못 찾습니다 */
+      const item = feedItems.find((i) => String(i.id) === el.dataset.id);
+      if (item) {
+        FeedHandoff.set(item);
+        Store.saveResult({ ...item, id: 'post:' + item.id });
+      }
       location.href = `./feed-detail.html?id=${encodeURIComponent(el.dataset.id)}`;
     });
   });
@@ -175,12 +184,19 @@ async function loadBriefing() {
   const res = await API.getTodayBriefing();
   if (!res.ok || !res.data.items.length) return; // 실패하면 기본 배너 유지
 
-  slides = res.data.items.map((b) => ({
-    id: b.id,
-    title: b.title,
-    desc: b.summary || b.levelLabel,
-    cta: '브리핑 확인하기',
-  }));
+  /* 첫 장(브리핑 카드)의 문구만 오늘 받은 내용으로 바꿉니다.
+     나머지 장은 사용법·포인트·공지 안내라 그대로 둡니다. */
+  const top = res.data.items[0];
+  slides = BRIEFINGS.map((s) =>
+    s.live
+      ? {
+          ...s,
+          id: top.id || s.id,
+          title: top.title || s.title,
+          desc: top.summary || top.levelLabel || s.desc,
+        }
+      : s,
+  );
   slidesFromServer = true;
   renderBriefings();
   startAuto();

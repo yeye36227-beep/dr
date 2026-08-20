@@ -151,6 +151,8 @@
   font-weight: 800;
   line-height: 1.45;
   letter-spacing: -0.3px;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
 }
 
 /* 라벨 · 배지 줄 */
@@ -601,12 +603,36 @@
   width: 30px;
   height: 30px;
 }
+.vcard__thumb[hidden] {
+  display: none;
+}
+.vcard__info {
+  /* flex 자식의 기본 min-width 는 auto 라, 안에 긴 URL 이 있으면
+     칸이 그만큼 늘어나 카드 밖으로 삐져나갑니다. */
+  flex: 1 1 0%;
+  min-width: 0;
+}
 .vcard__claim {
-  font-size: 17px;
-  font-weight: 800;
-  line-height: 1.35;
-  letter-spacing: -0.5px;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.6;
+  letter-spacing: -0.2px;
+  /* keep-all 은 한글을 단어째 유지하지만, 공백 없는 긴 URL 은 못 꺾습니다.
+     anywhere 를 함께 줘야 링크가 줄바꿈됩니다. */
   word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+/* 첫 문장(=진짜 주장)만 굵게, 뒤에 딸려 온 링크 줄은 흐리게 */
+.vcard__claim-lead {
+  font-weight: 800;
+}
+.vcard__claim-link {
+  display: block;
+  margin-top: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--gray-400);
+  word-break: break-all;
 }
 .vcard__state {
   display: inline-block;
@@ -634,12 +660,20 @@
 /* 결과 줄 */
 .vcard__result {
   display: flex;
-  align-items: center;
+  flex-direction: column;
   gap: 14px;
   margin-top: 16px;
   padding: 14px 16px;
   border: 1px solid var(--gray-200);
   border-radius: 16px;
+}
+.vcard__result-top {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.vcard__result .segbar {
+  margin-top: 2px;
 }
 .vmark {
   flex: 0 0 auto;
@@ -1369,4 +1403,10 @@
   margin: 18px 0 4px;
   font-size: 12px;
   color: var(--gray-500);
+}
+
+/* 공유 화면에서 판정 문장이 비어 있을 때 (서버가 extractedText 를 안 주는 경우) */
+.result2__claim.is-empty {
+  font-weight: 600;
+  color: var(--gray-400);
 }

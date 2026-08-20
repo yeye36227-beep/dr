@@ -11,6 +11,40 @@
         ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c],
     );
 
+  /* 판정 글 안에서 URL 줄은 흐리게, 첫 문장(또는 문장부호 없는 짧은 한 줄 전체)은
+     굵게+따옴표로 강조합니다. 백엔드가 강조 정보를 따로 주지 않으므로
+     프론트에서 형식적으로 추정합니다. */
+  const URL_LINE_RE = /^(https?:\/\/|www\.)\S+$/i;
+
+  function formatClaim(raw) {
+    const text = String(raw || '').trim();
+    if (!text) return '';
+
+    const lines = text.split(/\n+/).map((l) => l.trim()).filter(Boolean);
+    let leadDone = false;
+
+    const quote = (s) => `“${s}”`;
+
+    return lines
+      .map((line) => {
+        if (URL_LINE_RE.test(line)) {
+          return `<span class="vcard__claim-link">${esc(line)}</span>`;
+        }
+        if (!leadDone) {
+          leadDone = true;
+          const m = line.match(/^(.+?[.!?])(\s|$)/); // 첫 문장 경계 (.!?) 까지만 굵게
+          if (m) {
+            const lead = m[1];
+            const rest = line.slice(lead.length);
+            return `<span class="vcard__claim-lead">${quote(esc(lead))}</span>${esc(rest)}`;
+          }
+          return `<span class="vcard__claim-lead">${quote(esc(line))}</span>`;
+        }
+        return esc(line);
+      })
+      .join('<br>');
+  }
+
   const box = document.querySelector('.result2');
   const id = new URLSearchParams(location.search).get('id');
 
@@ -59,7 +93,12 @@
     const lv = typeof levelOf === 'function' ? levelOf(r.level) : null;
 
     /* 주장 · 상태 · 분류 */
-    document.getElementById('claimText').textContent = r.claim || '판정 결과';
+    const claimEl = document.getElementById('claimText');
+    claimEl.innerHTML = formatClaim(r.claim) || '판정 결과';
+    /* 카드에는 서버가 뽑아준 짧은 주장(title)을 보여주고,
+       입력 원문 전체(extractedText)는 hover 로 확인할 수 있게 둡니다. */
+    claimEl.title = r.fullText || r.claim || '';
+
     document.getElementById('stateChip').textContent =
       r.status === 'DONE' || !r.status ? '판정 완료' : '판정 중';
 
@@ -71,11 +110,14 @@
     document.getElementById('catText').textContent = cat;
     document.getElementById('dateText').textContent = fmtDate(r.createdAt);
 
-    /* 썸네일 — 서버가 이미지를 주면 그걸, 없으면 입력 방식 아이콘을 둡니다 */
+    /* 썸네일 — 실제 이미지가 있을 때만 보여주고, 없으면 아예 숨깁니다 */
     const thumbUrl = r.thumbnailUrl || r.imageUrl || null;
+    const thumbEl = document.getElementById('thumb');
     if (thumbUrl) {
-      const thumb = document.getElementById('thumb');
-      thumb.innerHTML = `<img src="${esc(thumbUrl)}" alt="" />`;
+      thumbEl.hidden = false;
+      thumbEl.innerHTML = `<img src="${esc(thumbUrl)}" alt="" />`;
+    } else {
+      thumbEl.hidden = true;
     }
 
     /* 판정 결과 줄 */
@@ -89,6 +131,12 @@
 
     const mark = document.getElementById('levelMark');
     mark.textContent = (lv && lv.icon) || '?';
+
+    /* 5칸 게이지 — EVIDENCE_LEVELS 의 score 만큼만 채웁니다 */
+    const gaugeScore = (lv && lv.score) || 0;
+    document.getElementById('levelGauge').innerHTML = [1, 2, 3, 4, 5]
+      .map((n) => `<span class="${n <= gaugeScore ? 'is-on' : ''}"></span>`)
+      .join('');
 
     /* 상업적 가능성 (= 이해상충) */
     const sect = document.getElementById('conflictSect');

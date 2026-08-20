@@ -19,7 +19,7 @@ const path = require('path');
 
 const PORT = Number(process.env.PORT || 3000);
 const API = process.env.API || 'http://127.0.0.1:8080'; // 백엔드 주소
-const ROOT = path.join(__dirname, 'project'); // 화면 파일이 있는 폴더
+const ROOT = path.join(__dirname, 'dr.judge'); // 화면 파일이 있는 폴더
 
 const TYPES = {
   '.html': 'text/html; charset=utf-8',

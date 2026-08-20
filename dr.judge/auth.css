@@ -149,3 +149,33 @@
 .kakao__retry {
   margin-top: 18px;
 }
+
+/* ---------- 시작 화면: 카카오 버튼 아래 안내 · 구분선 ---------- */
+.auth__hint {
+  margin-top: 8px;
+  text-align: center;
+  font-size: 11.5px;
+  color: var(--gray-400);
+}
+.auth__or {
+  position: relative;
+  margin: 18px 0 12px;
+  text-align: center;
+}
+.auth__or::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  height: 1px;
+  background: var(--gray-200);
+}
+.auth__or span {
+  position: relative;
+  padding: 0 12px;
+  /* 시작 화면 배경은 흰색이 아니라 --bg-app 입니다 */
+  background: var(--bg-app);
+  font-size: 11.5px;
+  color: var(--gray-400);
+}

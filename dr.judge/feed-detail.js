@@ -20,18 +20,42 @@
   const box = document.getElementById('detail');
   const id = new URLSearchParams(location.search).get('id');
 
-  /* 게시물 상세 API 가 아직 없어서, 목록에서 넘겨준 내용을 씁니다.
-     그것도 없으면 예시 카드를 보여 줍니다. */
-  const passed = Store.getResult ? Store.getResult('post:' + id) : null;
+  /* 게시물 상세 API 가 아직 없어서, 목록 화면이 넘겨준 내용을 씁니다.
+     Store 는 로그인 세션이 있을 때만 저장되기 때문에, 세션과 무관하게 남는
+     sessionStorage 를 먼저 봅니다. (common.js 의 FeedHandoff) */
   const card =
-    passed || FEED_CARDS.find((c) => c.id === id) || FEED_CARDS[1] || {};
+    (typeof FeedHandoff !== 'undefined' ? FeedHandoff.get(id) : null) ||
+    (Store.getResult ? Store.getResult('post:' + id) : null) ||
+    (typeof FEED_CARDS !== 'undefined'
+      ? FEED_CARDS.find((c) => String(c.id) === id)
+      : null);
 
-  const lv = typeof levelOf === 'function' ? levelOf(card.result) : null;
+  /* 넘겨받은 내용이 없을 때 예시 카드로 떨어지면 안 됩니다.
+     예전에는 FEED_CARDS[1] 로 떨어져서, 어떤 카드를 눌러도 같은 값이 떴습니다. */
+  if (!card) {
+    box.innerHTML =
+      '<div class="empty">' +
+      '<p class="empty__title">카드를 불러오지 못했어요</p>' +
+      '<p class="empty__desc">목록에서 다시 눌러 주세요.</p>' +
+      '</div>';
+    return;
+  }
+
+  /* result 는 등급 키(clinical…), levelLabel 은 한글 라벨입니다.
+     마이페이지는 라벨만 갖고 있어서 두 가지를 모두 받아 줍니다. */
+  const lv =
+    (typeof levelOf === 'function' ? levelOf(card.result) : null) ||
+    (typeof EVIDENCE_LEVELS !== 'undefined'
+      ? EVIDENCE_LEVELS.find(
+          (l) => l.name === (card.levelLabel || card.result),
+        ) || null
+      : null);
   const detail = card.detail || {};
 
   const title = card.title || card.summary || '';
   const category = card.category || '';
-  const date = fmtDate(card.createdAt);
+  /* 마이페이지 목록은 이미 만들어진 date 문자열을 갖고 있습니다 */
+  const date = card.date || fmtDate(card.createdAt);
   const name = card.levelLabel || detail.verdict || (lv && lv.name) || '판정 결과';
   const suffix =
     detail.summary ||

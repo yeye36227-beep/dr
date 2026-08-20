@@ -30,7 +30,15 @@
   }
 
   function render(r) {
-    claim.textContent = `“${r.claim}”`;
+    /* 서버가 판정 문장(extractedText)을 비워서 주는 경우가 있습니다.
+       그대로 두면 따옴표만 남아 “” 로 보여서, 안내 문구로 대신합니다. */
+    if (r.claim) {
+      claim.textContent = `“${r.claim}”`;
+      claim.classList.remove('is-empty');
+    } else {
+      claim.textContent = '판정한 내용을 불러오지 못했어요.';
+      claim.classList.add('is-empty');
+    }
 
     /* 신뢰도 라벨 */
     const levelCard = document.getElementById('levelCard');

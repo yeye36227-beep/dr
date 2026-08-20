@@ -159,6 +159,39 @@ function initOfflineBanner() {
   sync();
 }
 
+/* ============================================
+   피드 카드 넘겨주기
+
+   게시물 상세 API 가 아직 없어서, 목록 화면(피드·홈·마이페이지)이
+   눌린 카드의 내용을 담아 두면 feed-detail.html 이 꺼내 씁니다.
+
+   Store 를 쓰지 않는 이유: Store.saveResult 는 로그인 세션이 없으면
+   조용히 아무것도 하지 않습니다. 그러면 상세 화면이 넘겨받은 값을
+   찾지 못해 예시 카드로 떨어집니다.
+   ============================================ */
+const FeedHandoff = {
+  key: (id) => 'feedcard:' + String(id),
+
+  set(card) {
+    if (!card || !card.id) return;
+    try {
+      sessionStorage.setItem(this.key(card.id), JSON.stringify(card));
+    } catch (e) {
+      /* 시크릿 모드 등 저장이 막힌 경우 — 상세 화면이 빈 상태를 보여 줍니다 */
+    }
+  },
+
+  get(id) {
+    if (!id) return null;
+    try {
+      const raw = sessionStorage.getItem(this.key(id));
+      return raw ? JSON.parse(raw) : null;
+    } catch (e) {
+      return null;
+    }
+  },
+};
+
 document.addEventListener('DOMContentLoaded', () => {
   initOfflineBanner();
   initImageFallback();

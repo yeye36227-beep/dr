@@ -79,9 +79,16 @@
       return;
     }
 
-    const keywords = items.map((i) => i.title.split(/[,·]/)[0].trim()).slice(0, 3);
-    summaryText.innerHTML =
-      `오늘은 ${keywords.map((k) => `<b>${esc(k.length > 14 ? k.slice(0, 14) + '…' : k)}</b>`).join(', ')}<br />관련 소식이 도착했어요.`;
+    /* 서버가 title 을 비워서 주면 예전에는 '오늘은 , 관련 소식이 도착했어요.' 처럼
+       빈 자리만 남았습니다. 쓸 수 있는 키워드가 없으면 문장을 바꿉니다. */
+    const keywords = items
+      .map((i) => String(i.title || i.summary || '').split(/[,·]/)[0].trim())
+      .filter(Boolean)
+      .slice(0, 3);
+
+    summaryText.innerHTML = keywords.length
+      ? `오늘은 ${keywords.map((k) => `<b>${esc(k.length > 14 ? k.slice(0, 14) + '…' : k)}</b>`).join(', ')}<br />관련 소식이 도착했어요.`
+      : `오늘 도착한 브리핑 <b>${items.length}건</b>을 아래에서 확인해 보세요.`;
 
     const levels = new Set(items.map((i) => i.levelLabel).filter(Boolean));
     const stats = [
@@ -102,32 +109,50 @@
     const shown =
       current === '전체' ? items : items.filter((i) => i.category === current);
 
+    /* 제목·요약·라벨이 비어 오는 카드가 있습니다. 그대로 그리면 글자가 하나도
+       없는 빈 줄이 되어 '아무것도 안 보인다'가 됩니다. 있는 값으로 채우고,
+       그마저 없으면 빈 칸을 아예 그리지 않습니다. */
     list.innerHTML = shown
-      .map(
-        (b) => `
-      <li class="bitem" data-id="${esc(b.id)}" data-archive="${esc(b.archiveId || '')}">
+      .map((b) => {
+        const title = b.title || b.summary || '제목이 없는 브리핑';
+        const desc = b.title && b.summary !== b.title ? b.summary : '';
+        return `
+      <li class="bitem" data-key="${esc(b.key)}" data-id="${esc(b.id || '')}" data-archive="${esc(b.archiveId || '')}">
         <div class="bitem__body">
           <span class="chip">${esc(b.category || '기타')}</span>
-          <h3 class="bitem__title">${esc(b.title)}</h3>
-          <p class="bitem__desc">${esc(b.summary)}</p>
-          <span class="bitem__time">${esc(b.levelLabel)}</span>
+          <h3 class="bitem__title">${esc(title)}</h3>
+          ${desc ? `<p class="bitem__desc">${esc(desc)}</p>` : ''}
+          ${b.levelLabel ? `<span class="bitem__time">${esc(b.levelLabel)}</span>` : ''}
         </div>
         <span class="bitem__arrow" aria-hidden="true">›</span>
-      </li>`,
-      )
+      </li>`;
+      })
       .join('');
 
     empty.hidden = shown.length > 0;
 
     list.querySelectorAll('.bitem').forEach((el) => {
       el.addEventListener('click', () => {
-        // 오픈율 지표(4.3) — 결과를 기다리지 않고 바로 이동합니다
-        API.markBriefingOpened(el.dataset.id);
+        // 오픈율 지표(4.3) — briefingId 가 오는 응답일 때만 보냅니다
+        if (el.dataset.id) API.markBriefingOpened(el.dataset.id);
 
-        const archive = el.dataset.archive;
-        location.href = archive
-          ? `./feed-detail.html?id=${encodeURIComponent(archive)}`
-          : `./feed-detail.html?id=${encodeURIComponent(el.dataset.id)}`;
+        /* 브리핑 상세 API 가 따로 없어서 피드 상세 화면을 함께 씁니다.
+           서버 응답에 briefingId 가 없는 경우가 있어, 넘어가기 전에
+           지금 카드의 내용을 담아 둡니다. 담지 않으면 상세가 빈 화면이 됩니다. */
+        const item = items.find((i) => i.key === el.dataset.key);
+        const target = el.dataset.archive || el.dataset.key;
+
+        if (item) {
+          FeedHandoff.set({
+            id: target,
+            title: item.title || item.summary,
+            category: item.category,
+            levelLabel: item.levelLabel,
+            desc: item.summary,
+          });
+        }
+
+        location.href = `./feed-detail.html?id=${encodeURIComponent(target)}`;
       });
     });
   }

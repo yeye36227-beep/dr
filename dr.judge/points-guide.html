@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Dr.Judge · 포인트 받는 방법</title>
+    <link rel="icon" type="image/png" href="/assets/app-icon.png" />
+    <link rel="stylesheet" href="common.css" />
+    <link rel="stylesheet" href="tabs.css" />
+    <link rel="stylesheet" href="judge.css" />
+    <link rel="stylesheet" href="guide.css" />
+  </head>
+  <body>
+    <div class="app tabpage guidepage">
+      <header class="subhead">
+        <a href="./home.html" class="subhead__back" aria-label="뒤로">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m15 5-7 7 7 7" />
+          </svg>
+        </a>
+        <h1 class="subhead__title">포인트 받는 방법 확인하기</h1>
+      </header>
+
+      <div class="scroll-area">
+        <section class="ghero">
+          <span class="ghero__badge">HOW TO EARN POINTS</span>
+          <h2 class="ghero__title">닥터저지로 확인하고<br /><b>포인트도 받아요!</b></h2>
+          <p class="ghero__sub">
+            다양한 활동으로 포인트를 적립하고 유용하게 활용해보세요.
+          </p>
+          <img
+            class="ghero__char"
+            src="./assets/character-head.png"
+            alt=""
+            data-fallback="character"
+          />
+        </section>
+
+        <section class="gsect">
+          <h2 class="gsect__title">포인트 적립 방법</h2>
+          <div id="pointList"></div>
+        </section>
+
+        <section class="gsect">
+          <a href="./mypage.html" class="btn btn--block btn--lg btn--primary">
+            내 포인트 확인하기
+          </a>
+        </section>
+      </div>
+
+      <nav class="tabbar" data-active="home"></nav>
+    </div>
+
+    <script src="common.js"></script>
+    <script src="data.js"></script>
+    <script>
+      (function () {
+        const esc = (s) =>
+          String(s).replace(
+            /[&<>"']/g,
+            (c) =>
+              ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c],
+          );
+
+        /* 적립 방법마다 다른 아이콘 — 다른 화면에서 쓰는 모양을 그대로 씁니다 */
+        const ICONS = {
+          search:
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5" /><path d="m16 16 4.5 4.5" /></svg>',
+          share:
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="2.6" /><circle cx="6" cy="12" r="2.6" /><circle cx="18" cy="19" r="2.6" /><path d="m8.4 10.8 7.2-4.1M8.4 13.2l7.2 4.1" /></svg>',
+          feed:
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3" /><path d="M8 9h8M8 13h8M8 17h5" /></svg>',
+          check:
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5" /></svg>',
+          like:
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"><path d="M12 20s-7.2-4.4-7.2-9.3A4.2 4.2 0 0 1 12 8.1a4.2 4.2 0 0 1 7.2 2.6C19.2 15.6 12 20 12 20Z" /></svg>',
+        };
+
+        document.getElementById('pointList').innerHTML = POINT_WAYS.map(
+          (w, i) =>
+            '<div class="gpoint">' +
+            '<span class="gpoint__no">' + (i + 1) + '</span>' +
+            '<span class="gpoint__ico" aria-hidden="true">' +
+            (ICONS[w.icon] || ICONS.check) +
+            '</span>' +
+            '<div class="gpoint__body">' +
+            '<h3 class="gpoint__title">' + esc(w.title) + '</h3>' +
+            '<p class="gpoint__desc">' + esc(w.desc) + '</p>' +
+            '</div>' +
+            '<span class="gpoint__amt">+' + w.amount + 'P</span>' +
+            '</div>',
+        ).join('');
+      })();
+    </script>
+  </body>
+</html>

@@ -1,5 +1,22 @@
 # Dr.Judge — API 연동 메모
 
+> ## ⚠️ 2026-08-20 정정
+>
+> 배포 서버가 **`https://13-124-27-143.sslip.io/v3/api-docs`** 로 실제 스펙을
+> 공개하고 있습니다. 아래 문서 중 일부가 실제 응답과 달라서, 그대로 읽었더니
+> 화면이 비어 보이는 문제가 있었습니다. 고친 곳:
+>
+> | 화면 | 문서에 적혀 있던 이름 | 서버가 실제로 주는 이름 |
+> |---|---|---|
+> | 내 정보 조회 | `interestCategories` | **`interestCategoryCodes`** |
+> | 공유 링크 공개 조회 | `extractedText` | **`title`** |
+> | 공유 링크 공개 조회 | `conflictOfInterest.detected` | **`conflictDetected`** (평평함) |
+> | 공유 링크 공개 조회 | `guideCard` (객체) | **`guideCardJson`** (JSON 문자열) |
+> | 브리핑 | `briefingId`·`title`·`summary`·`trustLevelLabel` | **`categoryCode`·`trustLevel`·`target`·`effect`·`evidenceSummary`** |
+>
+> **명세가 헷갈릴 때는 이 문서보다 `/v3/api-docs` 를 믿으세요.**
+
+
 ## 서버 주소 · CORS
 
 프론트는 Live Server(**5500**), 백엔드는 **8080** 이라 포트가 다릅니다.
@@ -200,7 +217,7 @@ Redirect URI 는 지금 열려 있는 주소에서 자동으로 만듭니다.
 | 여는 방법 | 만들어지는 Redirect URI |
 |---|---|
 | `node serve.js` (3000) | `http://localhost:3000/kakao-callback.html` |
-| Live Server (5500) | `http://localhost:5500/project/kakao-callback.html` |
+| Live Server (5500) | `http://localhost:5500/dr.judge/kakao-callback.html` |
 
 **카카오에 등록한 값과 글자 하나까지 같아야 합니다.** 다르면 카카오가 `KOE006` 을 돌려줍니다.
 고정하고 싶으면 `api.js` 의 `KAKAO_REDIRECT_URI` 에 직접 적으면 됩니다.
@@ -311,11 +328,17 @@ Redirect URI 는 지금 열려 있는 주소에서 자동으로 만듭니다.
 `GET /api/users/me`
 
 ```json
-{ "userId": "u_1001", "nickname": "닉네임", "profileImageUrl": "https://...",
-  "pointBalance": 1200,
-  "interestCategories": ["NUTRITION_SUPPLEMENT","COSMETICS"],
-  "ageGroup": "AGE_50S", "gender": "FEMALE", "createdAt": "..." }
+{ "nickname": "닉네임", "email": "hong@gmail.com", "pointBalance": 1200,
+  "interestCategoryCodes": ["NUTRITION_SUPPLEMENT","COSMETICS"] }
 ```
+
+> **필드 이름 주의.** 관심분야는 `interestCategories` 가 아니라
+> **`interestCategoryCodes`** 입니다. 저장(온보딩)할 때 쓰는 이름과 같습니다.
+> 프론트가 `interestCategories` 로 읽고 있어서, 관심분야를 설정해 둔 사람에게도
+> 마이페이지에 **'미설정'** 이 뜨고 있었습니다. (2026-08-20 수정)
+>
+> `ageGroup`·`gender`·`profileImageUrl`·`createdAt` 은 이 응답에 없습니다.
+> 나이대·성별은 온보딩 때 저장한 값을 기기에서 그대로 씁니다.
 
 | 상태코드 | 화면 동작 |
 |---|---|
@@ -495,10 +518,28 @@ Redirect URI 는 지금 열려 있는 주소에서 자동으로 만듭니다.
 
 ```json
 { "success": true, "data": { "date": "2026-08-05", "items": [
-  { "briefingId": "b_20260805_1", "category": "NUTRITION_SUPPLEMENT",
-    "trustLevelLabel": "임상적 근거 있음", "title": "...", "summary": "...",
-    "relatedArchiveId": "arch_0099" } ] } }
+  { "categoryCode": "NUTRITION_SUPPLEMENT",
+    "trustLevel": "CLINICAL_EVIDENCE",
+    "target": "비타민C 고함량 제품",
+    "effect": "면역력 개선",
+    "evidenceSummary": "..." } ] } }
 ```
+
+> **위 구조가 실제 응답입니다** (`/v3/api-docs` 의 `BriefingItemResponse`).
+> 예전에 이 문서에 적혀 있던 `briefingId`·`title`·`summary`·`trustLevelLabel`·
+> `relatedArchiveId` 는 **오지 않습니다.** 그걸 읽고 있어서 브리핑 카드가
+> 전부 빈 줄로 나왔습니다. 지금은 이렇게 만들어 씁니다. (2026-08-20 수정)
+>
+> | 화면 | 만드는 방법 |
+> |---|---|
+> | 제목 | `target` + `effect` 를 ` · ` 로 이음 |
+> | 설명 | `evidenceSummary` |
+> | 분야 칩 | `categoryCode` → 한글 라벨 |
+> | 신뢰도 라벨 | `trustLevel` → 한글 라벨 |
+>
+> **`briefingId` 가 없어서 열람 기록(4.3)을 보낼 수 없습니다.** 카드를 눌러도
+> `POST /briefings/{briefingId}/open` 을 부르지 못합니다. 오픈율 지표가
+> 필요하면 응답에 `briefingId` 를 넣어 주세요.
 
 들어가는 곳: 홈 상단 배너, 오늘의 브리핑 화면
 
@@ -751,6 +792,11 @@ Redirect URI 는 지금 열려 있는 주소에서 자동으로 만듭니다.
 
 `GET /api/feed/posts?sort=&page=&size=`
 
+> **2026-08-20** 이 API 가 예전에 500 을 내서, 프론트는 한동안
+> `GET /feed/posts/me`(내 게시물)로 대신 쓰고 있었습니다. 그래서 공유 피드에
+> 내 글만 보였습니다. 지금은 전체 피드를 먼저 부르고, 실패하면 예전처럼
+> 내 게시물로 물러나도록 해 두었습니다.
+
 | 파라미터 | 기본값 | 설명 |
 |---|---|---|
 | sort | recent | `recent` / `popular` |
@@ -882,7 +928,30 @@ URL 은 같고 메서드로 구분합니다. 하트를 누르면 지금 상태�
 
 `GET /api/share/{shareToken}` — **인증 헤더 없음** (비회원도 열람)
 
-응답 `200 OK` — 3.2 와 같은 구조에서 작성자 정보 제외
+응답 `200 OK`
+
+```json
+{ "success": true, "data": {
+  "title": "크랜베리가 방광염 예방에 도움이 된다",
+  "trustLevel": "NO_EVIDENCE",
+  "evidenceSummary": "...",
+  "conflictDetected": true,
+  "conflictDescription": "...",
+  "safetyNotice": "...",
+  "guideCardJson": "{\"title\":\"영양제 확인 사항\",\"tips\":[\"...\"]}" } }
+```
+
+> **3.2(판정 결과 조회)와 구조가 다릅니다.** '작성자 정보만 뺀 같은 구조'가
+> 아닙니다. 이걸 3.2 처럼 읽고 있어서 공유 링크를 열면 판정 내용이 통째로
+> 비어 있었습니다. (2026-08-20 수정)
+>
+> | 다른 점 | 3.2 판정 결과 | 9.3 공유 조회 |
+> |---|---|---|
+> | 판정 문장 | `extractedText` | **`title`** |
+> | 신뢰도 라벨 | `trustLevelLabel` | **`trustLevel` 만 옴** (한글 라벨은 화면에서 만듦) |
+> | 이해상충 | `conflictOfInterest.detected` | **`conflictDetected`** (평평함) |
+> | 구매 기준 카드 | `guideCard` (객체) | **`guideCardJson`** (JSON **문자열** — `JSON.parse` 필요) |
+> | 근거 출처 | `sources` 배열 | **없음** |
 
 | 상태코드 | 화면 동작 |
 |---|---|

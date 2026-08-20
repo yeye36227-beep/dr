@@ -333,7 +333,7 @@ const API = (() => {
      ============================================================ */
 
   /* ↓↓↓ 카카오 개발자센터 > 내 애플리케이션 > 앱 키 > REST API 키 를 붙여넣으세요 ↓↓↓ */
-  const KAKAO_CLIENT_ID = '';
+  const KAKAO_CLIENT_ID = 'a65f9f7d17eb81888aeab8505f3fe564';
 
   /* 비워두면 지금 열려 있는 주소 기준으로 자동으로 만듭니다.
      카카오에 등록한 Redirect URI 와 '글자 하나까지' 같아야 합니다.
@@ -543,8 +543,10 @@ const API = (() => {
   /**
    * 내 정보 조회 (1.6)
    *   GET /api/users/me
-   *   응답  200 { userId, nickname, profileImageUrl, pointBalance,
-   *              interestCategories:[...], ageGroup, gender, createdAt }
+   *   응답  200 { nickname, email, pointBalance, interestCategoryCodes:[...] }
+   *         (배포 서버 /v3/api-docs 기준 — 필드 이름이 interestCategories 가
+   *          아니라 interestCategoryCodes 입니다. 이걸 잘못 읽어서 관심분야가
+   *          늘 '미설정' 으로 보였습니다.)
    *         401 인증 / 500 서버 오류
    *
    * 로그인 직후에 한 번 불러 이 기기의 프로필을 서버 값으로 맞춥니다.
@@ -579,15 +581,19 @@ const API = (() => {
       data: {
         userId: d.userId,
         nickname: d.nickname || '',
+        /* 1.6 응답에 email 이 들어 있는데 안 읽고 있었습니다.
+           안 읽으면 가입 때 저장해 둔 값이 없는 기기에서 '—' 로 보입니다. */
+        email: d.email || null,
         profileImageUrl: d.profileImageUrl || null,
         pointBalance: Number(d.pointBalance) || 0,
         /* 서버 enum → 화면 문구.
-           지금 서버의 1.6 응답에는 interestCategories 가 아예 없습니다.
-           없는 것을 빈 배열로 만들면 화면에 저장돼 있던 관심분야가 지워지므로
-           (관심분야 변경 화면이 매번 빈 상태로 열리는 원인이었습니다)
-           안 왔을 때는 undefined 로 두어 '건드리지 않음'이 되게 합니다. */
-        interests: Array.isArray(d.interestCategories)
-          ? d.interestCategories.map((v) => valueToLabel(INTEREST_OPTIONS, v))
+           서버가 주는 이름은 interestCategoryCodes 입니다. 예전 이름도 함께
+           받아 둡니다. 아예 안 왔을 때는 빈 배열이 아니라 undefined 로 둬야
+           이 기기에 저장돼 있던 관심분야가 지워지지 않습니다. */
+        interests: Array.isArray(d.interestCategoryCodes || d.interestCategories)
+          ? (d.interestCategoryCodes || d.interestCategories).map((v) =>
+              valueToLabel(INTEREST_OPTIONS, v),
+            )
           : undefined,
         ageRange: ageLabelOf(d.ageGroup),
         gender: d.gender ? valueToLabel(GENDER_OPTIONS, d.gender) : null,
@@ -647,6 +653,7 @@ const API = (() => {
     const d = res.data;
     const patch = {};
     if (d.nickname) patch.nickname = d.nickname;
+    if (d.email) patch.email = d.email;
     if (d.ageRange) patch.ageRange = d.ageRange;
     if (d.gender) patch.gender = d.gender;
     if (Array.isArray(d.interests)) {
@@ -773,24 +780,56 @@ const API = (() => {
     NO_EVIDENCE: 'lack',
     COUNTER_EVIDENCE: 'refuted',
   };
+  /* 공유 조회(9.3)는 guideCard 를 객체가 아니라 JSON '문자열'(guideCardJson)로 줍니다 */
+  function parseGuideCard(json) {
+    if (!json) return null;
+    try {
+      return JSON.parse(json);
+    } catch (e) {
+      console.warn('[API] guideCardJson 을 읽지 못했습니다');
+      return null;
+    }
+  }
+
+  /* trustLevelLabel 이 안 올 때 trustLevel 로 한글 라벨을 만듭니다 */
+  function labelOfTrust(trustLevel) {
+    const key = TRUST_TO_LEVEL[trustLevel];
+    const lv = key && typeof levelOf === 'function' ? levelOf(key) : null;
+    return lv ? lv.name : null;
+  }
+
+  /**
+   * 판정 상세(3.2)와 공유 조회(9.3)를 함께 정리합니다.
+   *
+   * 두 응답의 필드가 다릅니다. 공유 쪽은 작성자 정보를 뺀 축약본이라
+   * 이해상충이 평평하게(conflictDetected/conflictDescription) 오고,
+   * 라벨도 trustLevel 만 옵니다. 한쪽 이름만 읽으면 화면이 비어 버립니다.
+   */
   function normalizeJudgment(d) {
     const coi = d.conflictOfInterest || {};
     return {
-      id: String(d.judgmentId),
-      status: d.status,
-      claim: d.extractedText || '',
+      id: d.judgmentId != null ? String(d.judgmentId) : null,
+      /* 서버 상태값은 PROCESSING | COMPLETED | FAILED 입니다.
+         화면 코드는 예전부터 'DONE' 으로 확인하고 있어서 여기서 맞춰 줍니다.
+         이게 어긋나 있어서 판정이 끝나도 '판정 중' 으로 보이고
+         포인트도 적립되지 않았습니다. */
+      status: d.status === 'COMPLETED' ? 'DONE' : d.status,
+      /* 링크·이미지를 판정하면 extractedText 에 본문이 통째로 들어옵니다.
+         서버가 따로 뽑아 주는 title 이 있으면 그쪽이 읽기 좋습니다. */
+      claim: d.title || d.extractedText || '',
+      fullText: d.extractedText || '',
       inputType: d.inputType,
       categoryId: d.categoryId,
       level: TRUST_TO_LEVEL[d.trustLevel] || null,
-      levelLabel: d.trustLevelLabel || null,
+      levelLabel: d.trustLevelLabel || labelOfTrust(d.trustLevel),
       evidence: d.evidenceSummary || '',
-      conflict: Boolean(coi.detected),
+      conflict: Boolean(coi.detected || d.conflictDetected),
       conflictType: coi.type || null,
       conflictBadge: coi.badgeLabel || '이해상충 가능성',
-      conflictDesc: coi.description || '',
+      conflictDesc: coi.description || d.conflictDescription || '',
       safetyNotice: d.safetyNotice || null,
       sources: Array.isArray(d.sources) ? d.sources : [],
-      guideCard: d.guideCard || null,
+      guideCard: d.guideCard || parseGuideCard(d.guideCardJson),
       createdAt: d.createdAt,
     };
   }
@@ -948,7 +987,7 @@ const API = (() => {
    * 온보딩 정보 저장 (최초)
    *   POST /api/me/onboarding
    *   요청  { onboardingToken?, interestCategoryCodes:[...], ageGroup, gender }
-   *   응답  201 { interestCategories:[...], ageGroup, gender, onboardingCompleted:true }
+   *   응답  201 { interestCategoryCodes:[...], ageGroup, gender, onboardingCompleted:true }
    *         400 필수 값 누락·형식 오류·카테고리 코드 오류
    *         401 onboardingToken 만료 / 404 토큰 속 사용자 없음 / 500 서버 오류
    *
@@ -999,7 +1038,7 @@ const API = (() => {
   /**
    * 온보딩 정보 수정
    *   PATCH /api/me/onboarding
-   *   요청  { interestCategories?, ageGroup?, gender? }  — 바꿀 것만
+   *   요청  { interestCategoryCodes?, ageGroup?, gender? }  — 바꿀 것만
    *   응답  200 (2.1 과 같은 구조, 수정된 값 반영)
    *
    * 아직 최초 저장 전이면 POST 로 돌립니다.
@@ -1101,11 +1140,17 @@ const API = (() => {
       return { ok: true, data: { items: all, page: 1, totalPages: 1 } };
     }
 
-    /* 서버에는 '전체 피드' 목록 API 가 없습니다. 있는 것은 내 게시물뿐이라
-       (GET /feed/posts/me) 그쪽을 씁니다. /feed/posts 로 부르면 500 이 옵니다.
-       전체 피드 API 가 생기면 이 두 줄만 되돌리면 됩니다. */
+    /* 배포 서버에 전체 피드(GET /feed/posts)가 생겼습니다.
+       예전에는 이게 500 을 내서 '내 게시물'(/feed/posts/me)로 대신 썼는데,
+       그러면 공유 피드에 내 글만 보입니다. 이제 전체를 먼저 부르고,
+       그게 안 되는 서버에서는 예전처럼 내 게시물로 물러납니다. */
     const q = new URLSearchParams({ page: String(page), size: String(size) });
-    const res = await request(`/feed/posts/me?${q}`);
+
+    let res = await request(`/feed/posts?${q}`);
+    if (!res.ok) {
+      console.warn('[API] 전체 피드를 못 불러와 내 게시물로 대신합니다 —', res.code);
+      res = await request(`/feed/posts/me?${q}`);
+    }
     if (!res.ok) return res;
 
     /* 목록에 title·category 가 없어서(6.5), 이 기기에서 올린 글이면
@@ -1228,8 +1273,11 @@ const API = (() => {
           return {
             id: it.postId,
             postId: it.postId,
-            title: local.title || it.summary || '',
-            category: local.category || it.trustLevelLabel || '',
+            /* 서버가 title·category 를 주기 시작했습니다(배포 스펙 기준).
+               예전에는 없어서 이 기기에 저장해 둔 값으로 때웠는데,
+               그 탓에 제목 자리에 요약이, 분야 자리에 신뢰도 라벨이 나왔습니다. */
+            title: it.title || local.title || it.summary || '',
+            category: it.category || local.category || it.trustLevelLabel || '',
             date: formatDate(it.createdAt).split(' · ')[0],
             result: it.trustLevelLabel || '',
             likes: it.likeCount || 0,
@@ -1418,14 +1466,27 @@ const API = (() => {
   function normalizeBriefing(data, fallbackDate) {
     return {
       date: (data && data.date) || fallbackDate,
-      items: ((data && data.items) || []).map((it) => ({
-        id: it.briefingId,
-        category: valueToLabel(INTEREST_OPTIONS, it.category),
-        levelLabel: it.trustLevelLabel || '',
-        title: it.title || '',
-        summary: it.summary || '',
-        archiveId: it.relatedArchiveId || null,
-      })),
+      /* 서버가 실제로 주는 항목은 { categoryCode, trustLevel, target, effect,
+         evidenceSummary } 입니다. title·summary·trustLevelLabel 이라는 이름은
+         오지 않아서, 그것만 읽으면 카드가 전부 빈 줄로 보였습니다.
+         이름이 바뀌어도 되도록 양쪽을 모두 받습니다. */
+      items: ((data && data.items) || []).map((it, i) => {
+        const title =
+          it.title || [it.target, it.effect].filter(Boolean).join(' · ');
+        return {
+          /* briefingId 가 없는 응답이라, 열람 기록(4.3)에 쓸 id 는 있을 때만 둡니다 */
+          id: it.briefingId != null ? it.briefingId : null,
+          key: it.briefingId != null ? String(it.briefingId) : 'briefing:' + i,
+          category: valueToLabel(
+            INTEREST_OPTIONS,
+            it.category || it.categoryCode,
+          ),
+          levelLabel: it.trustLevelLabel || labelOfTrust(it.trustLevel) || '',
+          title,
+          summary: it.summary || it.evidenceSummary || '',
+          archiveId: it.relatedArchiveId || null,
+        };
+      }),
     };
   }
 
@@ -1458,8 +1519,12 @@ const API = (() => {
    * 오늘의 브리핑 조회
    *   GET /api/briefings/today
    *   응답  200 { success:true, data:{ date, items:[
-   *              { briefingId, category, trustLevelLabel, title, summary, relatedArchiveId } ] } }
+   *              { categoryCode, trustLevel, target, effect, evidenceSummary } ] } }
    *         401 인증 / 500 서버 오류
+   *
+   * 주의: 명세서(API연동.md)에는 briefingId·title·summary·trustLevelLabel 로
+   * 적혀 있지만, 실제 배포 서버(/v3/api-docs)는 위 필드로 줍니다.
+   * 명세서대로 읽었더니 브리핑 카드가 전부 빈 줄로 나왔습니다.
    *
    * 관심 카테고리와 판정 이력으로 매칭된 오늘의 카드 1~2건이 옵니다.
    */
